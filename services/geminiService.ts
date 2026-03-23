@@ -4,11 +4,11 @@ import { AccountType, PostTask, SocialPlatform, QuoteItem } from "../types";
 const getAccountPersona = (account: AccountType): string => {
   switch (account) {
     case AccountType.IB:
-      return "Brand: 'The Insurance Boss'. Voice: The Industry Whistleblower. Tone: Authoritative, fearless, 'No BS'. Focus: Exposing industry traps and elite wealth protection. MANDATORY CTA: Always include 'Visit theinsuranceboss.com to find more info' in captions and scripts.";
+      return "Brand: 'The Insurance Boss'. Voice: The Industry Whistleblower. Tone: Authoritative, fearless, 'No BS'. Focus: Exposing industry traps and elite wealth protection. STRATEGY: Combine education with entertainment (edutainment). Use movie clips (e.g., Wolf of Wall Street, Big Short) related to finance/risk. Focus on wealth psychology and controversial industry insights. MANDATORY CTA: Always include 'Visit theinsuranceboss.com to find more info' in captions and scripts.";
     case AccountType.QC:
-      return "Brand: 'Quick Coverage'. Voice: The Helpful Neighbor. Tone: Warm, efficient, family-oriented. Focus: Savings hacks and home/auto bundles.";
+      return "Brand: 'Quick Coverage'. Voice: The Helpful Neighbor. Tone: Warm, efficient, family-oriented. Focus: Savings hacks and home/auto bundles. MANDATORY CTA: Always include 'Visit quotequick.com to find more info' in captions and scripts.";
     case AccountType.LIB:
-      return "Brand: 'The Life Insurance Boss'. Voice: The Strategic Provider. Tone: Professional, empathetic, visionary. Focus: Life insurance as the ultimate act of love and a tool for generational wealth.";
+      return "Brand: 'The Life Insurance Boss'. Voice: The Strategic Provider. Tone: Professional, empathetic, visionary. Focus: Life insurance as the ultimate act of love and a tool for generational wealth. MANDATORY CTA: Always include 'Visit thelifeinsuranceboss.com to find more info' in captions and scripts.";
     case AccountType.PB:
       return "Brand: 'The Protection Boss'. Voice: The Guardian. Tone: Emotional, deep, urgent, protective. Focus: Legacy, family security, and life insurance missions.";
     default:
@@ -76,6 +76,8 @@ export const generatePostPrompt = async (task: PostTask, platform: SocialPlatfor
         TASK: Create a complete social media strategy for a ${task.category}.
         
         ${task.account === AccountType.IB ? "CRITICAL: You MUST include the text 'Visit theinsuranceboss.com to find more info' at the end of every Caption and every ElevenLabs Script." : ""}
+        ${task.account === AccountType.LIB ? "CRITICAL: You MUST include the text 'Visit thelifeinsuranceboss.com to find more info' at the end of every Caption and every ElevenLabs Script." : ""}
+        ${task.account === AccountType.QC ? "CRITICAL: You MUST include the text 'Visit quotequick.com to find more info' at the end of every Caption and every ElevenLabs Script." : ""}
 
         ${isCarousel ? `
         CAROUSEL STRUCTURE (${task.account === AccountType.IB ? 'EXACTLY 6 Slides' : '5 Slides'}):
@@ -90,15 +92,31 @@ export const generatePostPrompt = async (task: PostTask, platform: SocialPlatfor
         1. **🔥 THE HOOK**: The opening line.
         ${isVideo ? `
         2. **🎙️ VOICE PROMPT**: A descriptive persona for TTS (e.g., ElevenLabs). Include tone, pitch, age, and delivery style.
-        3. **🎙️ ELEVENLABS SCRIPT**: The actual audio narration script. **STRICT LIMIT: The script must be exactly 20 seconds long (approximately 45-55 words). Ensure high impact and zero fluff.** ${task.account === AccountType.IB ? "Must end with: Visit theinsuranceboss.com to find more info." : ""}
-        4. **🎬 VIDEO GENERATION PROMPT**: A detailed prompt for a video generation AI (e.g., HeyGen, Sora, or Kling) to create a video of a person talking. Describe the person's appearance, attire, the professional setting, and the camera angle (e.g., medium shot). The person should be authentically lip-syncing the ELEVENLABS SCRIPT.
+        3. **🎙️ ELEVENLABS SCRIPT**: The actual audio narration script. 
+           ${task.account === AccountType.IB ? `
+           REEL STRUCTURE (5-8 SECONDS):
+           1. BOLD HEADLINE HOOK (e.g., "Insurance companies hope business owners never learn this.")
+           2. EMOTIONAL OR CONTROVERSIAL STATEMENT (e.g., "This lawsuit is about to destroy thousands of businesses.")
+           3. QUICK INSIGHT OR LESSON.
+           4. CALL TO ACTION (e.g., "Comment INFO if you want the breakdown.")
+           ` : 'STRICT LIMIT: The script must be exactly 20 seconds long (approximately 45-55 words). Ensure high impact and zero fluff.'}
+           ${task.account === AccountType.IB ? "Must end with: Visit theinsuranceboss.com to find more info." : ""}
+           ${task.account === AccountType.LIB ? "Must end with: Visit thelifeinsuranceboss.com to find more info." : ""}
+           ${task.account === AccountType.QC ? "Must end with: Visit quotequick.com to find more info." : ""}
+        4. **🎬 VIDEO GENERATION PROMPT**: A detailed prompt for a video generation AI (e.g., HeyGen, Sora, or Kling) to create a video of a person talking or a cinematic clip. 
+           ${task.account === AccountType.IB ? 'IB REEL STYLE: Use cinematic B&W clips. Can include movie clips (Wolf of Wall Street, Big Short) with text overlays.' : 'Describe the person\'s appearance, attire, the professional setting, and the camera angle (e.g., medium shot).'}
         5. **🎵 MUSIC PROMPT**: A descriptive generation prompt for AI Music (e.g., Udio/Suno). Include genre, mood, instruments, and BPM.
         ` : '2. **🎬 FULL BREAKDOWN**: A frame-by-frame visual storyboard.'}
-        6. **📸 MASTER IMAGE PROMPT**: A single 4k hyper-realistic visual prompt for the main asset/cover. 
+        6. **📸 HOOK COVER IMAGE PROMPT (REEL COVER)**: A single 4k hyper-realistic visual prompt for the Reel's cover photo. 
+           * This image MUST visually represent the 🔥 THE HOOK.
            * ${task.account === AccountType.QC ? 'STRICT: Cinematic golden hour lifestyle photography. NO charts or UI overlays.' : ''}
-           * ${task.account === AccountType.IB ? 'STRICT: SOLID BACKGROUNDS ONLY. NO WINDOWS.' : ''}
-        7. **✍️ CAPTION**: Title Case social media copy. ${task.account === AccountType.IB ? "Include CTA: Visit theinsuranceboss.com to find more info." : ""}
-        8. **#️⃣ HASHTAGS**: Exactly 5 lowercase hashtags.
+           * ${task.account === AccountType.IB ? 'STRICT: SOLID BACKGROUNDS ONLY. NO WINDOWS. Cinematic B&W.' : ''}
+           * NO TEXT in the image.
+        7. **✍️ CAPTION**: Sentence Case social media copy (only the first letter of each sentence capitalized). 
+           ${task.account === AccountType.IB ? "Include CTA: Visit theinsuranceboss.com to find more info." : ""}
+           ${task.account === AccountType.LIB ? "Include CTA: Visit thelifeinsuranceboss.com to find more info." : ""}
+           ${task.account === AccountType.QC ? "Include CTA: Visit quotequick.com to find more info." : ""}
+        8. **#️⃣ HASHTAGS**: Exactly 5 lowercase hashtags (all letters must be lowercase).
 
         CRITICAL CONSTRAINTS:
         - NO TEXT IN IMAGES (the AI generator should not draw the text).

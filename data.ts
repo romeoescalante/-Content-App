@@ -35,95 +35,36 @@ const generateCategoryBatch = (account: AccountType, category: PostCategory, ite
 };
 
 const IB_POSTS: PostTask[] = [
+  ...generateCategoryBatch(ib, 'Reel', [
+    { title: "The Industry Secret", content: "5-8s clip of a dark office. Hook: 'Insurance companies hope business owners never learn this.' Statement: 'They count on your ignorance to protect their margins.' Insight: 'The real risk isn't the premium; it's the exclusion on page 42.' CTA: 'Comment INFO if you want the breakdown.'" },
+    { title: "The Lawsuit Trap", content: "5-8s clip of a shredder. Hook: 'This lawsuit is about to destroy thousands of businesses.' Statement: 'Standard policies are built to fail when you need them most.' Insight: 'Nuclear verdicts are the new normal.' CTA: 'Tag a business owner who needs to see this.'" },
+    { title: "The Bankrupt Reality", content: "5-8s clip of a silhouetted figure. Hook: 'Most business owners insure everything except the thing that actually bankrupts them.' Statement: 'You're protecting the building but leaving the empire exposed.' Insight: 'Umbrella liability is your only real shield.' CTA: 'Would this bankrupt your company?'" },
+    { title: "The One Mistake", content: "5-8s clip of a hand signing a contract. Hook: 'One insurance mistake can wipe out everything you built.' Statement: 'Unvetted indemnity clauses are a death sentence.' Insight: 'We audit the fine print so you don't have to.' CTA: 'Comment INFO for an audit.'" },
+    { title: "The $100k Fine Print", content: "5-8s clip of a red pen. Hook: 'This one sentence just cost you $100k.' Statement: 'Your agent didn't even read it because they're too comfortable.' Insight: 'Transparency is the only cure for a bad policy.' CTA: 'Tag a business owner.'" },
+    { title: "Why Your Agent is Quiet", content: "5-8s clip of a dark library. Hook: 'Why your agent is so quiet during renewal season.' Statement: 'They aren't busy; they're just waiting for the residuals to hit.' Insight: 'The 90-day cycle is a trap.' CTA: 'Comment INFO to switch.'" },
+    { title: "The Concrete Truth", content: "5-8s clip of a construction site. Hook: 'We don't look at the view; we look at the exposures.' Statement: 'Grounded power comes from knowing exactly where you're vulnerable.' Insight: 'Risk is a profit center if managed right.' CTA: 'Would this bankrupt your company?'" },
+    { title: "The $50M Reality", content: "5-8s clip of a city skyline. Hook: 'Why $10M is no longer enough for the elite.' Statement: 'The rise of nuclear verdicts has changed the game.' Insight: 'Layering your defense is the only way to survive.' CTA: 'Comment INFO for the strategy.'" },
+    { title: "The Workers Comp Heist", content: "5-8s clip of a calculator. Hook: 'How carriers manipulate your E-Mod.' Statement: 'The hidden errors in payroll audits are costing you thousands.' Insight: 'Reclaiming overpayments is our specialty.' CTA: 'Tag a business owner.'" },
+    { title: "The AI Liability Trap", content: "5-8s clip of a server room. Hook: 'Your policy doesn't cover AI-driven errors.' Statement: 'The silent exclusion in standard forms is a ticking time bomb.' Insight: 'Bridge the gap before it's too late.' CTA: 'Comment INFO to bridge the gap.'" },
+    { title: "The Transparency Manifesto", content: "5-8s clip of a dark office. Hook: 'Why your broker's commission is a secret.' Statement: 'The hidden fees in your premium are funding their lifestyle, not your protection.' Insight: 'Fee-only advisory is the future.' CTA: 'Tag a business owner.'" },
+    { title: "The Contractual Warfare", content: "5-8s clip of a contract. Hook: 'Your vendors are shifting their risk to YOU.' Statement: 'The indemnity clause you missed is a liability magnet.' Insight: 'Win the contract war with the Boss Review.' CTA: 'Comment INFO to win.'" },
+    { title: "The Renewal Revolution", content: "5-8s clip of a clock. Hook: 'Stop being a victim of the 90-day renewal cycle.' Statement: 'The 365-day risk management strategy is the only way to win.' Insight: 'We architect; we don't shop.' CTA: 'Would this bankrupt your company?'" },
+    { title: "The CEO's Audit", content: "5-8s clip of a leader from behind. Hook: '7 things to demand from your agent today.' Statement: 'If they can't answer these, they aren't protecting you.' Insight: 'An audit is the first step to certainty.' CTA: 'Comment INFO for the checklist.'" },
+    { title: "The Residual Exposed", content: "5-8s clip of a phone lighting up. Hook: 'The truth about why your agent wants you to stay with the same carrier.' Statement: 'It's about their residuals, not your results.' Insight: 'Transparency is the only way out.' CTA: 'Tag a business owner.'" },
+    { title: "The Cyber Gap", content: "5-8s clip of a laptop. Hook: 'The one entry point every mid-market firm misses.' Statement: 'Your cyber policy is full of holes you haven't seen yet.' Insight: 'Expose the gap before the hackers do.' CTA: 'Comment INFO for the audit.'" },
+    { title: "The Audit Win", content: "5-8s clip of a check. Hook: 'How we found $42k in overpayments in 15 minutes.' Statement: 'The industry counts on your ignorance.' Insight: 'We find what they hide.' CTA: 'Would this bankrupt your company?'" },
+    { title: "The Safety Manual Lie", content: "5-8s clip of a manual. Hook: 'Why your safety manual is actually increasing your liability risk.' Statement: 'Outdated protocols are a legal nightmare.' Insight: 'Update your shield.' CTA: 'Tag a business owner.'" },
+    { title: "The Elite's Shield", content: "5-8s clip of a concrete pillar. Hook: 'The top 1% don't buy policies. They buy certainty.' Statement: 'Join the Whistleblower Inner Circle.' Insight: 'Protect the empire.' CTA: 'Comment INFO to join.'" },
+    { title: "The Boss POV", content: "5-8s clip of a city view. Hook: 'What the Boss sees that your agent misses.' Statement: 'We look for the exposures that others ignore.' Insight: 'Grounded power is the only way.' CTA: 'Would this bankrupt your company?'" }
+  ]),
   ...generateCategoryBatch(ib, 'Carousel', [
     { title: "The 2026 Risk Reset", content: "Slide 1: Why your 2025 policy is a ticking time bomb. Slide 2: The inflation gap in property values. Slide 3: New liability precedents. Slide 4: The Whistleblower Audit. Slide 5: Secure your future. Slide 6: The 2026 Protocol." },
-    { title: "The AI Liability Trap", content: "Slide 1: Your policy doesn't cover AI-driven errors. Slide 2: The silent exclusion in standard forms. Slide 3: How to bridge the gap. Slide 4: Real-world case studies. Slide 5: The Boss Shield. Slide 6: Get protected now." },
     { title: "The Transparency Manifesto", content: "Slide 1: Why your broker's commission is a secret. Slide 2: The hidden fees in your premium. Slide 3: Our fee-only advisory model. Slide 4: Total transparency, total protection. Slide 5: Join the movement. Slide 6: Audit your agent." },
     { title: "The $50M Umbrella Reality", content: "Slide 1: Why $10M is no longer enough for the elite. Slide 2: The rise of nuclear verdicts. Slide 3: Shielding personal assets from business fallout. Slide 4: Layering your defense. Slide 5: The Boss Umbrella. Slide 6: Build your fortress." },
-    { title: "The Workers Comp Heist", content: "Slide 1: How carriers manipulate your E-Mod. Slide 2: The hidden errors in payroll audits. Slide 3: Reclaiming your overpayments. Slide 4: The Whistleblower Protocol. Slide 5: Real recovery stories. Slide 6: Start your audit." },
-    { title: "The Contractual Warfare", content: "Slide 1: Your vendors are shifting their risk to YOU. Slide 2: The indemnity clause you missed. Slide 3: Waiver of subrogation traps. Slide 4: The Boss Review. Slide 5: Win the contract war. Slide 6: Protect your empire." },
-    { title: "The Renewal Revolution", content: "Slide 1: Stop being a victim of the 90-day renewal cycle. Slide 2: The 365-day risk management strategy. Slide 3: Why we don't 'shop'—we 'architect'. Slide 4: The Advisory difference. Slide 5: Switch to the Boss. Slide 6: The 2026 Roadmap." }
-  ]),
-  ...generateCategoryBatch(ib, 'Reel', [
-    { title: "The $100k Fine Print", content: "Close up of a contract. 'This one sentence just cost you $100k. Your agent didn't even read it.' High-contrast B&W." },
-    { title: "Why Your Agent is Quiet", content: "Silhouetted figure in a dark office. 'They aren't quiet because they're busy. They're quiet because they're comfortable.' Moody lighting." },
-    { title: "The Concrete Office Truth", content: "Walking through a high-risk industrial site. 'We don't look at the view; we look at the exposures.' Grounded power." },
-    { title: "Signing Your Life Away", content: "Hand hovering over a signature line. 'Unvetted indemnity is a death sentence for your business.' Cinematic B&W." },
-    { title: "The Whistleblower's Warning", content: "Direct address to camera. 'The industry counts on your ignorance. It's time to wake up.' Authoritative tone." },
-    { title: "Risk is a Profit Center", content: "Tossing a heavy folder on a stone desk. 'The elite don't pay for insurance; they use it to build wealth.' Fast-paced montage." },
-    { title: "The 60-Second Binder Hack", content: "Phone screen lighting up in a dark room. 'Lender approval shouldn't take days. Here's how we do it in minutes.' Cinematic B&W." }
+    { title: "The Workers Comp Heist", content: "Slide 1: How carriers manipulate your E-Mod. Slide 2: The hidden errors in payroll audits. Slide 3: Reclaiming your overpayments. Slide 4: The Whistleblower Protocol. Slide 5: Real recovery stories. Slide 6: Start your audit." }
   ]),
   ...generateCategoryBatch(ib, 'Infographic', [
-    { title: "The Hidden Commission Map", content: "Visualizing where your premium actually goes. Exposing the carrier kickbacks. B&W aesthetic." },
-    { title: "E-Mod vs. Your Bottom Line", content: "The direct math of how safety incidents impact your profit. Whistleblower style." },
-    { title: "The Liability Iceberg", content: "Exposing the risks below the surface that standard policies ignore. High-contrast diagram." },
-    { title: "2026 Property Value Gap", content: "Why your current limits are a trap in the new economy. Replacement cost reality." },
-    { title: "The Broker's Conflict", content: "Comparing the standard broker model vs. the Whistleblower Advisory model." },
-    { title: "Umbrella Coverage Tiers", content: "The hierarchy of high-limit protection for the elite. B&W pyramid." },
-    { title: "The CEO's Audit Checklist", content: "7 things to demand from your agent today. A practical guide for leaders." }
-  ]),
-  ...generateCategoryBatch(ib, 'YouTube Shorts', [
-    { title: "The $1M Trap", content: "Why $1M in coverage is the fastest way to lose everything in 2026." },
-    { title: "Lender Secrets", content: "What the bank isn't telling you about your insurance requirements." },
-    { title: "Residuals Exposed", content: "The truth about why your agent wants you to stay with the same carrier." },
-    { title: "Cyber Gap Alert", content: "The one entry point every mid-market firm misses in their cyber policy." },
-    { title: "The Audit Win", content: "How we found $42k in overpayments for a local developer in 15 minutes." },
-    { title: "Safety Manual Lie", content: "Why your safety manual is actually increasing your liability risk." },
-    { title: "Join the Elite", content: "The 30-second pitch for the Boss Inner Circle referral program." }
-  ]),
-  ...generateCategoryBatch(ib, 'Meme', [
-    { title: "The 'Safe' Agent", content: "B&W photo of a person looking confused at a simple contract. Caption: When your agent sees a $10M risk." },
-    { title: "Renewal Day", content: "Someone sitting calmly in a dark library. Caption: When your book is 99% retained and the residuals hit." },
-    { title: "The Auditor", content: "Focus on a heavy calculator on a dark desk. Caption: Finding the $50k overpayment your agent missed." },
-    { title: "Closing Date", content: "A runner at the finish line (neck down). Caption: Delivering the binder 2 mins before the lender closes." },
-    { title: "The Standard Policy", content: "A photo of a paper umbrella in a storm. Caption: What most people think 'Full Coverage' looks like." },
-    { title: "Referral Life", content: "Close up of a phone lighting up in a dark room. Caption: Another high-ticket lead for the Boss." },
-    { title: "Profit Center", content: "Caption: Explaining to the CEO why insurance is an asset, not an expense." }
-  ]),
-  ...generateCategoryBatch(ib, 'Text', [
-    { title: "The Whistleblower Manifesto", content: "A long-form post about the moral decline of the insurance brokerage industry." },
-    { title: "Lender Warfare", content: "A practical guide for developers on winning the insurance battle with commercial banks." },
-    { title: "The Residual Revolution", content: "Why we built the Inner Circle to reward the connectors of the world." },
-    { title: "The ROI of Advocacy", content: "A breakdown of how one audit saved a firm $60k in annual premiums." },
-    { title: "2026 Risk Outlook", content: "Why the next 12 months will be the most dangerous for under-insured businesses." },
-    { title: "Executive Shield", content: "What every board member needs to know about their personal liability today." },
-    { title: "The Boss Philosophy", content: "Why we don't 'sell'—we protect empires through relentless transparency." }
-  ]),
-  ...generateCategoryBatch(ib, 'Story', [
-    { title: "Inside the Vault", content: "Quick peek at a stack of binder approvals. No faces, just the grind. B&W." },
-    { title: "The Site Walkthrough", content: "Walking through a concrete parking garage. Discussing liability exposures. Moody." },
-    { title: "Contract Redlines", content: "Quick clip of highlighting a dangerous clause in a commercial lease. High contrast." },
-    { title: "Lender Victory", content: "A 'Thank You' text from a major developer. We got it done. Cinematic." },
-    { title: "The Strategy Session", content: "Espresso on a stone desk next to a heavy policy folder. B&W." },
-    { title: "Join the Circle", content: "Link to the referral onboarding page. Earn high-ticket residuals. Direct." },
-    { title: "The Boss POV", content: "POV looking down at a city street from a dark office. Cinematic lighting." }
-  ]),
-  ...generateCategoryBatch(ib, 'Video', [
-    { title: "The Whistleblower Story", content: "A 3-minute documentary style video explaining why we left the corporate agencies." },
-    { title: "Empire Case Study", content: "The visual story of how we shielded a scaling firm from a $5M liability suit." },
-    { title: "Lender Binders 101", content: "A professional tutorial for real estate pros on the insurance process for closings." },
-    { title: "Workers Comp Math", content: "Explaining the experience modifier calculation in a cinematic B&W setting." },
-    { title: "The Referral Engine", content: "How the Inner Circle program works for our partners. Transparency and income." },
-    { title: "Replacement Cost Reality", content: "Why your building is actually worth $1M more than your policy says." },
-    { title: "Boss Origins", content: "The story of the first audit that changed everything. Cinematic B&W." }
-  ]),
-  ...generateCategoryBatch(ib, 'Slide', [
-    { title: "5 Clauses to Delete", content: "Text-based slide on commercial liability traps in 2026." },
-    { title: "The Residual Ladder", content: "Visualizing the tiers of the Inner Circle program. B&W." },
-    { title: "Cyber Risk 2026", content: "Key data points for business owners in the age of AI threats." },
-    { title: "The Audit Checklist", content: "7 things to look for on your current dec page. Practical." },
-    { title: "Deductible Strategy", content: "When to raise your deductible to $100k vs $10k. The math." },
-    { title: "Lender Approval Steps", content: "A timeline of getting a binder approved for a major loan." },
-    { title: "The Whistleblower Promise", content: "Our values and commitment to transparency and protection." }
-  ]),
-  ...generateCategoryBatch(ib, 'Holiday', [
-    { title: "Labor Day Legacy", content: "Protecting the work that builds the empire. Solid B&W photo of an empty workshop." },
-    { title: "Independence From Risk", content: "The true meaning of freedom is being fully shielded. B&W flag texture." },
-    { title: "Memorial Day Honor", content: "Respecting the sacrifice. A single silhouetted figure at a stone wall." },
-    { title: "The Year-End Audit", content: "Why New Year's is the best time for a total risk review. Cinematic." },
-    { title: "Thanksgiving Gratitude", content: "Grateful for our Inner Circle partners who grow the empire with us." },
-    { title: "Veteran's Day Shield", content: "Honoring those who protected the country by protecting their businesses." },
-    { title: "The Boss Christmas", content: "Quiet moments in the office. The grind doesn't stop, but we reflect. B&W." }
+    { title: "The Liability Iceberg", content: "Exposing the risks below the surface that standard policies ignore. High-contrast diagram. 5% Static content strategy." }
   ])
 ];
 
@@ -138,13 +79,13 @@ const QC_POSTS: PostTask[] = [
     { title: "The QC Neighborhood Promise", content: "Slide 1: We're not just your agents; we're your neighbors. Slide 2: Local support when you need it most. Slide 3: Why community-first insurance wins in 2026. Slide 4: Our commitment to you. Slide 5: Join the neighborhood today. Calm, bright aesthetic." }
   ]),
   ...generateCategoryBatch(qc, 'Reel', [
-    { title: "The 60-Second Savings Audit", content: "Friendly agent walking through a sunny living room. 'Let's find $500 in your budget in under a minute.' Warm morning light." },
-    { title: "Morning Coffee & Coverage", content: "Agent chatting over a steaming mug on a porch. 'Liability isn't scary, it's just a safety net for your family's future.' Friendly and authentic." },
-    { title: "The 'New Car' Dance", content: "A family high-fiving in their driveway with a new SUV. 'Covered before the first drive. That's the QC way.' Cinematic lifestyle aesthetic." },
-    { title: "Backyard Safety Check", content: "Quick montage of checking the pool gate and trampoline. 'A safe summer starts with a quick review.' Heartfelt and protected." },
-    { title: "The Bundle High-Five", content: "Mom and Dad celebrating at the kitchen table. 'When the Home+Auto bundle hits and the rate drops 25%.' Emotional and secure." },
-    { title: "Neighborly Advice: The Deductible", content: "Agent explaining options with a simple whiteboard in a cozy office. 'Choosing the right deductible for your family's budget.' High energy, bright colors." },
-    { title: "The Claims Hero: Storm Edition", content: "Reassuring agent helping a family after a heavy rain. 'We're here to get your life back to normal, fast.' Reassuring and helpful." }
+    { title: "The $1,200 Bundle Surprise", content: "A young couple opening an envelope on a sun-drenched porch. 'That moment you realize bundling Home + Auto just paid for your summer vacation.' Warm golden hour." },
+    { title: "The 'Just in Case' Coffee", content: "Two neighbors chatting over a fence with coffee. 'Insurance shouldn't be a headache. It's just looking out for each other. Let's talk coverage.' Friendly and authentic." },
+    { title: "The 2026 Safe Driver Bonus", content: "POV of a clean car interior driving through a green neighborhood. 'Your good habits are literally putting money back in your pocket this year. See the QC difference.' Bright morning sun." },
+    { title: "The First Home Hug", content: "A family hugging in front of a 'Sold' sign. 'Protecting your first big dream is our favorite part of the job. Welcome to the neighborhood.' Heartfelt and emotional." },
+    { title: "The Smart Home Savings Hack", content: "Quick clips of a smart doorbell and a leak sensor. 'These little gadgets aren't just cool—they're discount magnets at Quick Coverage.' Tech-lifestyle aesthetic." },
+    { title: "The Claims Hero: Flat Tire Edition", content: "A friendly agent arriving with a smile to help a stranded driver. 'We're not just a policy; we're the person who shows up when things go wrong.' Reassuring and helpful." },
+    { title: "The Neighborhood Rate Lock", content: "A group of diverse neighbors laughing at a block party. 'In a world of rising costs, we're locking in value for our community. Join the QC family.' Calm, bright aesthetic." }
   ]),
   ...generateCategoryBatch(qc, 'Infographic', [
     { title: "The 2026 Savings Roadmap", content: "A clean, colorful path showing the steps from safe driving to the ultimate multi-policy bundle. Friendly icons." },
