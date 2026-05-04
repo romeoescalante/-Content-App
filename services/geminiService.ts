@@ -9,8 +9,6 @@ const getAccountPersona = (account: AccountType): string => {
       return "Brand: 'Quick Coverage'. Voice: The Helpful Neighbor. Tone: Warm, efficient, family-oriented. Focus: Savings hacks and home/auto bundles. MANDATORY CTA: Always include 'Visit quotequick.com to find more info' in captions and scripts.";
     case AccountType.LIB:
       return "Brand: 'The Life Insurance Boss'. Voice: The Strategic Provider. Tone: Professional, empathetic, visionary. Focus: Life insurance as the ultimate act of love and a tool for generational wealth. MANDATORY CTA: Always include 'Visit thelifeinsuranceboss.com to find more info' in captions and scripts.";
-    case AccountType.PB:
-      return "Brand: 'The Protection Boss'. Voice: The Guardian. Tone: Emotional, deep, urgent, protective. Focus: Legacy, family security, and life insurance missions.";
     default:
       return "Professional Content Creator";
   }
@@ -49,8 +47,6 @@ const getVisualDiversityRules = (account: AccountType): string => {
             - ATMOSPHERE: Grounded power, solid foundations, heavy dramatic shadows.`;
         case AccountType.LIB:
             return `${commonRule} Settings: Professional and intimate. Silhouetted families, hands signing documents on a dark wooden table, shoulder-up shots of a provider looking out toward a city skyline (no window visible).`;
-        case AccountType.PB:
-            return `${commonRule} Settings: Intimate and meaningful. Silhouetted parents holding hands, shoulder-up shots of documents on a table. Moody, emotional lighting.`;
         default:
             return commonRule;
     }
@@ -58,8 +54,8 @@ const getVisualDiversityRules = (account: AccountType): string => {
 
 export const generatePostPrompt = async (task: PostTask, platform: SocialPlatform = 'ALL'): Promise<string> => {
   try {
-    const apiKey = "AIzaSyAZIgZ3Eu5e8P69Ose0ko3vBu3FT0IQlDs";
-    if (!apiKey) throw new Error("API_KEY is missing");
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) throw new Error("GEMINI_API_KEY is missing");
 
     const ai = new GoogleGenAI({ apiKey });
     const persona = getAccountPersona(task.account);
@@ -80,12 +76,23 @@ export const generatePostPrompt = async (task: PostTask, platform: SocialPlatfor
         ${task.account === AccountType.QC ? "CRITICAL: You MUST include the text 'Visit quotequick.com to find more info' at the end of every Caption and every ElevenLabs Script." : ""}
 
         ${isCarousel ? `
-        CAROUSEL STRUCTURE (${task.account === AccountType.IB ? 'EXACTLY 6 Slides' : '5 Slides'}):
-        For EVERY slide, provide ONLY the image prompt. Do NOT provide headline or body text for the slides.
-        ### 📄 Slide [X]
-        - **📸 IMAGE PROMPT**: A dedicated hyper-realistic photography prompt for this specific slide.
+        CAROUSEL STRUCTURE (EXACTLY 4 Slides):
+        For EVERY slide, provide the following details in this EXACT format:
+        
+        ---
+        ### Slide [X]: [Subtitle]
+        **Title**: [Main Title]
+        **Description**: [Body Text]
+        **CTA**: [Call to Action]
+        
+        **📸 IMAGE PROMPT**: [A dedicated hyper-realistic photography prompt for this specific slide. 
           * If QC: Focus on cinematic golden hour lifestyle photography of real human people and families. NO charts, NO UI, NO diagrams, NO floating graphics.
-          * If IB: High-contrast B&W, STRICTLY NO WINDOWS or glass backgrounds, NO faces.
+          * If IB: High-contrast B&W, STRICTLY NO WINDOWS or glass backgrounds, NO faces.]
+        ---
+
+        CRITICAL CAROUSEL RULES:
+        - Slide 4 MUST be the final slide.
+        - Slide 4 MUST focus on the final Call to Action (CTA) and brand closure.
         ` : ''}
 
         OUTPUT SECTIONS:
@@ -93,13 +100,29 @@ export const generatePostPrompt = async (task: PostTask, platform: SocialPlatfor
         ${isVideo ? `
         2. **🎙️ VOICE PROMPT**: A descriptive persona for TTS (e.g., ElevenLabs). Include tone, pitch, age, and delivery style.
         3. **🎙️ ELEVENLABS SCRIPT**: The actual audio narration script. 
+           
+           REEL SCRIPT STRUCTURE (FIRST 3 SECONDS MUST BE A HOOK):
            ${task.account === AccountType.IB ? `
-           REEL STRUCTURE (5-8 SECONDS):
-           1. BOLD HEADLINE HOOK (e.g., "Insurance companies hope business owners never learn this.")
-           2. EMOTIONAL OR CONTROVERSIAL STATEMENT (e.g., "This lawsuit is about to destroy thousands of businesses.")
+           - HOOK EXAMPLE: "How to sell insurance without an insurance license." (Authority Hook)
+           - Focus: Business opportunity and expert positioning.
+           ` : ''}
+           ${task.account === AccountType.QC ? `
+           - HOOK EXAMPLE: "Stop paying for insurance you don't actually have." (Speed Hook)
+           - Focus: High energy, fast-paced reach.
+           ` : ''}
+           ${task.account === AccountType.LIB ? `
+           - HOOK EXAMPLE: "I found a way to leave my kids $500k for the price of a Netflix subscription." (Emotional Hook)
+           - Focus: High engagement and "Saves" for family protection.
+           ` : ''}
+
+           ${task.account === AccountType.IB ? `
+           REEL STRUCTURE (5-8 SECONDS TOTAL):
+           1. BOLD HEADLINE HOOK (First 3 seconds).
+           2. EMOTIONAL OR CONTROVERSIAL STATEMENT.
            3. QUICK INSIGHT OR LESSON.
-           4. CALL TO ACTION (e.g., "Comment INFO if you want the breakdown.")
-           ` : 'STRICT LIMIT: The script must be exactly 20 seconds long (approximately 45-55 words). Ensure high impact and zero fluff.'}
+           4. CALL TO ACTION.
+           ` : 'STRICT LIMIT: The script must be exactly 20 seconds long (approximately 45-55 words). Ensure high impact and zero fluff. The first 3 seconds MUST be a powerful hook.'}
+           
            ${task.account === AccountType.IB ? "Must end with: Visit theinsuranceboss.com to find more info." : ""}
            ${task.account === AccountType.LIB ? "Must end with: Visit thelifeinsuranceboss.com to find more info." : ""}
            ${task.account === AccountType.QC ? "Must end with: Visit quotequick.com to find more info." : ""}
@@ -112,11 +135,10 @@ export const generatePostPrompt = async (task: PostTask, platform: SocialPlatfor
            * ${task.account === AccountType.QC ? 'STRICT: Cinematic golden hour lifestyle photography. NO charts or UI overlays.' : ''}
            * ${task.account === AccountType.IB ? 'STRICT: SOLID BACKGROUNDS ONLY. NO WINDOWS. Cinematic B&W.' : ''}
            * NO TEXT in the image.
-        7. **✍️ CAPTION**: Sentence Case social media copy (only the first letter of each sentence capitalized). 
-           ${task.account === AccountType.IB ? "Include CTA: Visit theinsuranceboss.com to find more info." : ""}
-           ${task.account === AccountType.LIB ? "Include CTA: Visit thelifeinsuranceboss.com to find more info." : ""}
-           ${task.account === AccountType.QC ? "Include CTA: Visit quotequick.com to find more info." : ""}
-        8. **#️⃣ HASHTAGS**: Exactly 5 lowercase hashtags (all letters must be lowercase).
+        7. **✍️ Social Media Post Copy**: 
+           [Write a high-converting caption following the user's example: Hook with emoji, Body paragraphs, CTA with emoji.]
+           
+           [Hashtags: Exactly 5 lowercase hashtags]
 
         CRITICAL CONSTRAINTS:
         - NO TEXT IN IMAGES (the AI generator should not draw the text).
@@ -125,20 +147,44 @@ export const generatePostPrompt = async (task: PostTask, platform: SocialPlatfor
     `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
+      model: 'gemini-3.1-pro-preview',
       contents: `Generate a ${task.category} campaign for ${task.account}. Topic: ${task.title}. Content focus: ${task.content}. Platform: ${platform}.`,
       config: { systemInstruction, temperature: 0.95 }
     });
     return response.text || "Generation failed.";
   } catch (error) {
+    console.error("Generation error:", error);
     return "Error generating strategy.";
   }
 };
 
+export const generateImage = async (prompt: string): Promise<string> => {
+  try {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) throw new Error("GEMINI_API_KEY is missing");
+
+    const ai = new GoogleGenAI({ apiKey });
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash-image',
+      contents: [{ parts: [{ text: prompt }] }],
+    });
+    
+    for (const part of response.candidates?.[0]?.content?.parts || []) {
+      if (part.inlineData) {
+        return `data:image/png;base64,${part.inlineData.data}`;
+      }
+    }
+    return "";
+  } catch (error) {
+    console.error("Image generation failed", error);
+    return "";
+  }
+};
+
 export const generateQuoteArtPrompt = async (quote: QuoteItem): Promise<string> => {
-    try {
-    const apiKey = "AIzaSyAZIgZ3Eu5e8P69Ose0ko3vBu3FT0IQlDs";
-    if (!apiKey) throw new Error("API_KEY is missing");
+  try {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) throw new Error("GEMINI_API_KEY is missing");
         
         const ai = new GoogleGenAI({ apiKey });
         const persona = getAccountPersona(quote.account);
@@ -164,8 +210,11 @@ export const generateQuoteArtPrompt = async (quote: QuoteItem): Promise<string> 
             ### 🎨 Option 4: The Candid Perspective
             Low angle or unique POV.
             
+            ### 🎬 Option 5: 15-Second Video Prompt (9:16)
+            **🎥 VIDEO PROMPT**: [A detailed cinematic video generation prompt for a 15-second clip in 9:16 aspect ratio. Describe the movement, lighting, and subject. Focus on slow-motion or high-end cinematic transitions. Ensure it aligns with the brand aesthetic (B&W for IB/LIB, Golden Hour for QC).]
+            
             RULES:
-            - ALL PHOTOGRAPHY.
+            - ALL PHOTOGRAPHY/CINEMATOGRAPHY.
             - NO CARTOONS.
             - NO CHARTS, NO DIAGRAMS, NO FLOATING GRAPHICS for QC.
             - NO FACES (except for Quick Coverage).
@@ -173,8 +222,8 @@ export const generateQuoteArtPrompt = async (quote: QuoteItem): Promise<string> 
         `;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-3-pro-preview',
-            contents: `Generate 4 art directions for the quote: "${quote.text}"`,
+            model: 'gemini-3.1-pro-preview',
+            contents: `Generate 5 art directions (4 images, 1 video) for the quote: "${quote.text}"`,
             config: { systemInstruction, temperature: 0.9 }
         });
         return response.text || "Generation failed.";

@@ -23,10 +23,10 @@ export const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onViewPrompt, onTog
   const getStyle = () => {
       if (isCompleted) {
          return {
-            wrapper: "border-slate-800 bg-slate-950 text-slate-600 opacity-60 grayscale shadow-none",
-            badge: "bg-slate-900 text-slate-600 border border-slate-800",
-            icon: <Quote className="w-5 h-5 opacity-10 text-slate-600" />,
-            button: "bg-slate-900 text-slate-600 cursor-not-allowed border border-slate-800"
+            wrapper: "border-slate-800 bg-black text-slate-400 shadow-none",
+            badge: "bg-slate-900 text-slate-500 border border-slate-800",
+            icon: <Quote className="w-5 h-5 opacity-20 text-slate-600" />,
+            button: "bg-slate-900 text-slate-500 cursor-not-allowed border border-slate-800"
          };
       }
       switch (quote.account) {
@@ -44,26 +44,12 @@ export const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onViewPrompt, onTog
                 icon: <DollarSign className="w-5 h-5 opacity-40 text-teal-500" />,
                 button: "bg-teal-500 text-white hover:bg-teal-400"
             };
-        case AccountType.PB:
-            return {
-                wrapper: "border-red-600 bg-slate-900 text-slate-100 shadow-[0_0_20px_rgba(220,38,38,0.05)]",
-                badge: "bg-red-600 text-white",
-                icon: <Heart className="w-5 h-5 opacity-60 text-red-500" />,
-                button: "bg-red-600 text-white hover:bg-red-500"
-            };
-        case AccountType.CB:
+        case AccountType.LIB:
             return {
                 wrapper: "border-slate-500 bg-slate-900 text-slate-100 shadow-[0_0_20px_rgba(100,116,139,0.05)]",
-                badge: "bg-slate-200 text-black",
-                icon: <Car className="w-5 h-5 opacity-40 text-slate-400" />,
-                button: "bg-slate-200 text-black hover:bg-white"
-            };
-        case AccountType.GB:
-            return {
-                wrapper: "border-green-600 bg-stone-900 text-stone-100 shadow-[0_0_20px_rgba(22,163,74,0.05)]",
-                badge: "bg-green-700 text-white",
-                icon: <Coffee className="w-5 h-5 opacity-40 text-green-600" />,
-                button: "bg-green-700 text-white hover:bg-green-600"
+                badge: "bg-slate-700 text-white",
+                icon: <Quote className="w-5 h-5 opacity-40 text-slate-400" />,
+                button: "bg-slate-700 text-white hover:bg-slate-600"
             };
         default:
              return {
@@ -86,7 +72,7 @@ export const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onViewPrompt, onTog
         {style.icon}
       </div>
       
-      <p className={`text-xl font-serif italic leading-relaxed mb-6 flex-grow ${isCompleted ? 'text-slate-400' : 'text-white'}`}>
+      <p className={`text-xl font-serif italic leading-relaxed mb-6 flex-grow ${isCompleted ? 'text-slate-300' : 'text-white'}`}>
         "{quote.text}"
       </p>
 
@@ -113,7 +99,7 @@ export const QuoteCard: React.FC<QuoteCardProps> = ({ quote, onViewPrompt, onTog
           onClick={onToggleComplete}
           className={`w-full flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-sm font-semibold transition-all active:scale-95 ${
             isCompleted 
-              ? 'bg-slate-700 text-white hover:bg-slate-600' 
+              ? 'bg-slate-900 text-slate-400 hover:bg-slate-800 hover:text-white border border-slate-800' 
               : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700'
           }`}
         >

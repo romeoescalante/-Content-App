@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 
 function App() {
-  const [viewMode, setViewMode] = useState<'CALENDAR' | 'QUOTES' | 'LIBRARY' | 'VAULT'>('CALENDAR');
+  const [viewMode, setViewMode] = useState<'CALENDAR' | 'QUOTES' | 'LIBRARY' | 'VAULT' | 'BOSS_SPECIAL'>('CALENDAR');
   const [layoutMode, setLayoutMode] = useState<'BOARD' | 'LIST'>('BOARD');
   const [selectedAccount, setSelectedAccount] = useState<AccountType | 'ALL'>('ALL');
   const [selectedQuoteAccount, setSelectedQuoteAccount] = useState<AccountType>(AccountType.IB);
@@ -83,7 +83,7 @@ function App() {
     const activeAccount = selectedAccount === 'ALL' ? AccountType.IB : selectedAccount;
     const accountPosts = PLAYBOOK_DATA.filter(p => p.account === activeAccount);
     
-    const categories: PostCategory[] = ['Carousel', 'Reel', 'Video', 'YouTube Shorts', 'Infographic', 'Meme', 'Story', 'Slide', 'Text', 'Holiday'];
+    const categories: PostCategory[] = ['Carousel', 'Reel', 'Video'];
     
     return categories.map(cat => ({
       category: cat,
@@ -148,10 +148,8 @@ function App() {
     ib: PLAYBOOK_DATA.filter(p => p.account === AccountType.IB).length,
     qc: PLAYBOOK_DATA.filter(p => p.account === AccountType.QC).length,
     lib: PLAYBOOK_DATA.filter(p => p.account === AccountType.LIB).length,
-    pb: PLAYBOOK_DATA.filter(p => p.account === AccountType.PB).length,
     quotesIB: QUOTES_DATA.filter(q => q.account === AccountType.IB).length,
     quotesQC: QUOTES_DATA.filter(q => q.account === AccountType.QC).length,
-    quotesPB: QUOTES_DATA.filter(q => q.account === AccountType.PB).length,
     quotesLIB: QUOTES_DATA.filter(q => q.account === AccountType.LIB).length,
   };
 
@@ -195,6 +193,12 @@ function App() {
               >
                 <Archive className="w-3.5 h-3.5" /> Vault
               </button>
+              <button 
+                onClick={() => setViewMode('BOSS_SPECIAL')}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-md transition-all text-xs font-bold whitespace-nowrap ${viewMode === 'BOSS_SPECIAL' ? 'bg-yellow-400 text-black shadow-md' : 'text-slate-500 hover:text-white'}`}
+              >
+                <Zap className="w-3.5 h-3.5" /> Boss Special
+              </button>
             </div>
 
             <div className="hidden md:flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
@@ -226,9 +230,9 @@ function App() {
       <main className="max-w-[1900px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         {/* Account Selector Stats Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-11 gap-3 mb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-9 gap-3 mb-10">
           
-          <div onClick={() => { setSelectedAccount('ALL'); }} className={`cursor-pointer p-3 rounded-xl border transition-all ${selectedAccount === 'ALL' ? 'bg-white text-slate-950 border-white shadow-[0_0_20px_rgba(255,255,255,0.2)] scale-105' : 'bg-slate-900 border-slate-800 hover:border-slate-600 text-slate-300'}`}>
+          <div onClick={() => { setSelectedAccount('ALL'); setViewMode('CALENDAR'); }} className={`cursor-pointer p-3 rounded-xl border transition-all ${viewMode !== 'QUOTES' && selectedAccount === 'ALL' ? 'bg-white text-slate-950 border-white shadow-[0_0_20px_rgba(255,255,255,0.2)] scale-105' : 'bg-slate-900 border-slate-800 hover:border-slate-600 text-slate-300'}`}>
             <div className="flex items-center justify-between mb-1">
               <LayoutGrid className="w-4 h-4 opacity-80" />
               <span className="text-lg font-bold">{stats.total}</span>
@@ -236,7 +240,7 @@ function App() {
             <p className="text-[10px] font-medium uppercase tracking-wider opacity-70">All Content</p>
           </div>
 
-          <div onClick={() => { setSelectedAccount(AccountType.IB); }} className={`cursor-pointer p-3 rounded-xl border transition-all ${selectedAccount === AccountType.IB ? 'bg-slate-800 text-white border-yellow-400 shadow-lg border-l-4 scale-105' : 'bg-slate-900 border-slate-800 hover:border-slate-600'}`}>
+          <div onClick={() => { setSelectedAccount(AccountType.IB); setViewMode('CALENDAR'); }} className={`cursor-pointer p-3 rounded-xl border transition-all ${viewMode !== 'QUOTES' && selectedAccount === AccountType.IB ? 'bg-slate-800 text-white border-yellow-400 shadow-lg border-l-4 scale-105' : 'bg-slate-900 border-slate-800 hover:border-slate-600'}`}>
             <div className="flex items-center justify-between mb-1">
               <Shield className="w-4 h-4 text-yellow-400" />
               <span className="text-lg font-bold">{stats.ib}</span>
@@ -244,7 +248,7 @@ function App() {
             <p className="text-[10px] font-medium uppercase tracking-wider opacity-70">Ins. Boss</p>
           </div>
 
-          <div onClick={() => { setSelectedAccount(AccountType.QC); }} className={`cursor-pointer p-3 rounded-xl border transition-all ${selectedAccount === AccountType.QC ? 'bg-slate-800 text-white border-teal-500 shadow-lg border-l-4 scale-105' : 'bg-slate-900 border-slate-800 hover:border-slate-600'}`}>
+          <div onClick={() => { setSelectedAccount(AccountType.QC); setViewMode('CALENDAR'); }} className={`cursor-pointer p-3 rounded-xl border transition-all ${viewMode !== 'QUOTES' && selectedAccount === AccountType.QC ? 'bg-slate-800 text-white border-teal-500 shadow-lg border-l-4 scale-105' : 'bg-slate-900 border-slate-800 hover:border-slate-600'}`}>
             <div className="flex items-center justify-between mb-1">
               <Users className="w-4 h-4 text-teal-400" />
               <span className="text-lg font-bold">{stats.qc}</span>
@@ -252,20 +256,12 @@ function App() {
             <p className="text-[10px] font-medium uppercase tracking-wider opacity-70">Quick Cov</p>
           </div>
 
-          <div onClick={() => { setSelectedAccount(AccountType.LIB); }} className={`cursor-pointer p-3 rounded-xl border transition-all ${selectedAccount === AccountType.LIB ? 'bg-slate-800 text-white border-slate-400 shadow-lg border-l-4 scale-105' : 'bg-slate-900 border-slate-800 hover:border-slate-600'}`}>
+          <div onClick={() => { setSelectedAccount(AccountType.LIB); setViewMode('CALENDAR'); }} className={`cursor-pointer p-3 rounded-xl border transition-all ${viewMode !== 'QUOTES' && selectedAccount === AccountType.LIB ? 'bg-slate-800 text-white border-slate-400 shadow-lg border-l-4 scale-105' : 'bg-slate-900 border-slate-800 hover:border-slate-600'}`}>
             <div className="flex items-center justify-between mb-1">
               <Zap className="w-4 h-4 text-slate-400" />
               <span className="text-lg font-bold">{stats.lib}</span>
             </div>
             <p className="text-[10px] font-medium uppercase tracking-wider opacity-70">Life Boss</p>
-          </div>
-
-          <div onClick={() => { setSelectedAccount(AccountType.PB); }} className={`cursor-pointer p-3 rounded-xl border transition-all ${selectedAccount === AccountType.PB ? 'bg-red-600 text-white border-white shadow-lg border-l-4 scale-105' : 'bg-slate-900 border-slate-800 hover:border-slate-600'}`}>
-            <div className="flex items-center justify-between mb-1">
-              <Heart className="w-4 h-4 text-white" />
-              <span className="text-lg font-bold text-white">{stats.pb}</span>
-            </div>
-            <p className="text-[10px] font-medium uppercase tracking-wider opacity-70 text-white/80">Protect</p>
           </div>
 
           {/* Spacer for Quote Tabs */}
@@ -285,14 +281,6 @@ function App() {
               <span className="text-lg font-bold">{stats.quotesQC}</span>
             </div>
             <p className="text-[10px] font-medium uppercase tracking-wider opacity-70">QC Q</p>
-          </div>
-
-          <div onClick={() => { setViewMode('QUOTES'); setSelectedQuoteAccount(AccountType.PB); setSelectedQuoteCategory('ALL'); }} className={`cursor-pointer p-3 rounded-xl border transition-all ${viewMode === 'QUOTES' && selectedQuoteAccount === AccountType.PB ? 'bg-red-600 text-white border-white shadow-lg scale-105' : 'bg-slate-900 border-slate-800 hover:border-slate-600'}`}>
-            <div className="flex items-center justify-between mb-1">
-              <Quote className="w-4 h-4 text-white" />
-              <span className="text-lg font-bold text-white">{stats.quotesPB}</span>
-            </div>
-            <p className="text-[10px] font-medium uppercase tracking-wider opacity-70 text-white/80">PB Q</p>
           </div>
 
           <div onClick={() => { setViewMode('QUOTES'); setSelectedQuoteAccount(AccountType.LIB); setSelectedQuoteCategory('ALL'); }} className={`cursor-pointer p-3 rounded-xl border transition-all ${viewMode === 'QUOTES' && selectedQuoteAccount === AccountType.LIB ? 'bg-slate-700 text-white border-white shadow-lg scale-105' : 'bg-slate-900 border-slate-800 hover:border-slate-600'}`}>
@@ -434,7 +422,6 @@ function App() {
                              <span className={`text-[10px] font-bold uppercase px-2 py-1 rounded-md ${
                                post.account === AccountType.IB ? 'bg-yellow-400 text-black' :
                                post.account === AccountType.QC ? 'bg-teal-500 text-white' :
-                               post.account === AccountType.PB ? 'bg-red-600 text-white' :
                                'bg-slate-700 text-white'
                              }`}>
                                {post.account}
@@ -612,6 +599,33 @@ function App() {
                   </div>
                 )}
             </div>
+        )}
+
+        {viewMode === 'BOSS_SPECIAL' && (
+          <div className="animate-in fade-in duration-300 pb-20">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h2 className="text-3xl font-extrabold text-white flex items-center gap-3">
+                  <Zap className="w-8 h-8 text-yellow-400" />
+                  Insurance Boss Special Content
+                </h2>
+                <p className="text-slate-500 mt-1 font-medium">Exclusive Life Insurance sub-category Reels and Carousels for The Insurance Boss.</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+              {PLAYBOOK_DATA.filter(p => p.id.startsWith('ib-special-')).map(post => (
+                <PostCard 
+                  key={post.id} 
+                  task={post}
+                  selectedPlatform={selectedPlatform}
+                  onViewPrompt={handleOpenModal}
+                  onToggleComplete={() => togglePostComplete(post.id)}
+                  isCompleted={completedPostIds.has(post.id)}
+                />
+              ))}
+            </div>
+          </div>
         )}
 
         {viewMode === 'VAULT' && (

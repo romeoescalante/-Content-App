@@ -1,4 +1,4 @@
-import { PostTask, AccountType, WeekTheme, QuoteItem, PostCategory, QuoteCategory } from './types';
+import { PostTask, AccountType, WeekTheme, QuoteItem, QuoteCategory } from './types';
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
@@ -11,344 +11,379 @@ const getFutureDate = (dayOffset: number): string => {
 const ib = AccountType.IB;
 const qc = AccountType.QC;
 const lib = AccountType.LIB;
-const pb = AccountType.PB; 
-
-// Helper to generate a batch of posts for a specific category/account
-const generateCategoryBatch = (account: AccountType, category: PostCategory, items: {title: string, content: string}[]): PostTask[] => {
-  return items.map((item, index) => {
-    let content = item.content;
-    if (account === AccountType.IB) {
-      content += " Visit theinsuranceboss.com to find more info.";
-    }
-    return {
-      id: generateId(),
-      day: index + 1, // Placeholder day
-      date: getFutureDate(index + 1),
-      week: Math.floor(index / 7) + 1,
-      weekTheme: [WeekTheme.WEEK1, WeekTheme.WEEK2, WeekTheme.WEEK3, WeekTheme.WEEK4][Math.floor(index / 7)] || WeekTheme.WEEK4,
-      account,
-      title: item.title,
-      content,
-      category
-    };
-  });
-};
 
 const IB_POSTS: PostTask[] = [
-  ...generateCategoryBatch(ib, 'Reel', [
-    { title: "The Industry Secret", content: "5-8s clip of a dark office. Hook: 'Insurance companies hope business owners never learn this.' Statement: 'They count on your ignorance to protect their margins.' Insight: 'The real risk isn't the premium; it's the exclusion on page 42.' CTA: 'Comment INFO if you want the breakdown.'" },
-    { title: "The Lawsuit Trap", content: "5-8s clip of a shredder. Hook: 'This lawsuit is about to destroy thousands of businesses.' Statement: 'Standard policies are built to fail when you need them most.' Insight: 'Nuclear verdicts are the new normal.' CTA: 'Tag a business owner who needs to see this.'" },
-    { title: "The Bankrupt Reality", content: "5-8s clip of a silhouetted figure. Hook: 'Most business owners insure everything except the thing that actually bankrupts them.' Statement: 'You're protecting the building but leaving the empire exposed.' Insight: 'Umbrella liability is your only real shield.' CTA: 'Would this bankrupt your company?'" },
-    { title: "The One Mistake", content: "5-8s clip of a hand signing a contract. Hook: 'One insurance mistake can wipe out everything you built.' Statement: 'Unvetted indemnity clauses are a death sentence.' Insight: 'We audit the fine print so you don't have to.' CTA: 'Comment INFO for an audit.'" },
-    { title: "The $100k Fine Print", content: "5-8s clip of a red pen. Hook: 'This one sentence just cost you $100k.' Statement: 'Your agent didn't even read it because they're too comfortable.' Insight: 'Transparency is the only cure for a bad policy.' CTA: 'Tag a business owner.'" },
-    { title: "Why Your Agent is Quiet", content: "5-8s clip of a dark library. Hook: 'Why your agent is so quiet during renewal season.' Statement: 'They aren't busy; they're just waiting for the residuals to hit.' Insight: 'The 90-day cycle is a trap.' CTA: 'Comment INFO to switch.'" },
-    { title: "The Concrete Truth", content: "5-8s clip of a construction site. Hook: 'We don't look at the view; we look at the exposures.' Statement: 'Grounded power comes from knowing exactly where you're vulnerable.' Insight: 'Risk is a profit center if managed right.' CTA: 'Would this bankrupt your company?'" },
-    { title: "The $50M Reality", content: "5-8s clip of a city skyline. Hook: 'Why $10M is no longer enough for the elite.' Statement: 'The rise of nuclear verdicts has changed the game.' Insight: 'Layering your defense is the only way to survive.' CTA: 'Comment INFO for the strategy.'" },
-    { title: "The Workers Comp Heist", content: "5-8s clip of a calculator. Hook: 'How carriers manipulate your E-Mod.' Statement: 'The hidden errors in payroll audits are costing you thousands.' Insight: 'Reclaiming overpayments is our specialty.' CTA: 'Tag a business owner.'" },
-    { title: "The AI Liability Trap", content: "5-8s clip of a server room. Hook: 'Your policy doesn't cover AI-driven errors.' Statement: 'The silent exclusion in standard forms is a ticking time bomb.' Insight: 'Bridge the gap before it's too late.' CTA: 'Comment INFO to bridge the gap.'" },
-    { title: "The Transparency Manifesto", content: "5-8s clip of a dark office. Hook: 'Why your broker's commission is a secret.' Statement: 'The hidden fees in your premium are funding their lifestyle, not your protection.' Insight: 'Fee-only advisory is the future.' CTA: 'Tag a business owner.'" },
-    { title: "The Contractual Warfare", content: "5-8s clip of a contract. Hook: 'Your vendors are shifting their risk to YOU.' Statement: 'The indemnity clause you missed is a liability magnet.' Insight: 'Win the contract war with the Boss Review.' CTA: 'Comment INFO to win.'" },
-    { title: "The Renewal Revolution", content: "5-8s clip of a clock. Hook: 'Stop being a victim of the 90-day renewal cycle.' Statement: 'The 365-day risk management strategy is the only way to win.' Insight: 'We architect; we don't shop.' CTA: 'Would this bankrupt your company?'" },
-    { title: "The CEO's Audit", content: "5-8s clip of a leader from behind. Hook: '7 things to demand from your agent today.' Statement: 'If they can't answer these, they aren't protecting you.' Insight: 'An audit is the first step to certainty.' CTA: 'Comment INFO for the checklist.'" },
-    { title: "The Residual Exposed", content: "5-8s clip of a phone lighting up. Hook: 'The truth about why your agent wants you to stay with the same carrier.' Statement: 'It's about their residuals, not your results.' Insight: 'Transparency is the only way out.' CTA: 'Tag a business owner.'" },
-    { title: "The Cyber Gap", content: "5-8s clip of a laptop. Hook: 'The one entry point every mid-market firm misses.' Statement: 'Your cyber policy is full of holes you haven't seen yet.' Insight: 'Expose the gap before the hackers do.' CTA: 'Comment INFO for the audit.'" },
-    { title: "The Audit Win", content: "5-8s clip of a check. Hook: 'How we found $42k in overpayments in 15 minutes.' Statement: 'The industry counts on your ignorance.' Insight: 'We find what they hide.' CTA: 'Would this bankrupt your company?'" },
-    { title: "The Safety Manual Lie", content: "5-8s clip of a manual. Hook: 'Why your safety manual is actually increasing your liability risk.' Statement: 'Outdated protocols are a legal nightmare.' Insight: 'Update your shield.' CTA: 'Tag a business owner.'" },
-    { title: "The Elite's Shield", content: "5-8s clip of a concrete pillar. Hook: 'The top 1% don't buy policies. They buy certainty.' Statement: 'Join the Whistleblower Inner Circle.' Insight: 'Protect the empire.' CTA: 'Comment INFO to join.'" },
-    { title: "The Boss POV", content: "5-8s clip of a city view. Hook: 'What the Boss sees that your agent misses.' Statement: 'We look for the exposures that others ignore.' Insight: 'Grounded power is the only way.' CTA: 'Would this bankrupt your company?'" }
-  ]),
-  ...generateCategoryBatch(ib, 'Carousel', [
-    { title: "The 2026 Risk Reset", content: "Slide 1: Why your 2025 policy is a ticking time bomb. Slide 2: The inflation gap in property values. Slide 3: New liability precedents. Slide 4: The Whistleblower Audit. Slide 5: Secure your future. Slide 6: The 2026 Protocol." },
-    { title: "The Transparency Manifesto", content: "Slide 1: Why your broker's commission is a secret. Slide 2: The hidden fees in your premium. Slide 3: Our fee-only advisory model. Slide 4: Total transparency, total protection. Slide 5: Join the movement. Slide 6: Audit your agent." },
-    { title: "The $50M Umbrella Reality", content: "Slide 1: Why $10M is no longer enough for the elite. Slide 2: The rise of nuclear verdicts. Slide 3: Shielding personal assets from business fallout. Slide 4: Layering your defense. Slide 5: The Boss Umbrella. Slide 6: Build your fortress." },
-    { title: "The Workers Comp Heist", content: "Slide 1: How carriers manipulate your E-Mod. Slide 2: The hidden errors in payroll audits. Slide 3: Reclaiming your overpayments. Slide 4: The Whistleblower Protocol. Slide 5: Real recovery stories. Slide 6: Start your audit." }
-  ]),
-  ...generateCategoryBatch(ib, 'Infographic', [
-    { title: "The Liability Iceberg", content: "Exposing the risks below the surface that standard policies ignore. High-contrast diagram. 5% Static content strategy." }
-  ])
+  // 20 Carousels
+  ...Array.from({ length: 20 }).map((_, i) => ({
+    id: generateId(),
+    day: i + 1,
+    date: getFutureDate(i + 1),
+    week: Math.floor(i / 7) + 1,
+    weekTheme: [WeekTheme.WEEK1, WeekTheme.WEEK2, WeekTheme.WEEK3, WeekTheme.WEEK4][Math.floor(i / 7)] || WeekTheme.WEEK4,
+    account: ib,
+    category: 'Carousel' as const,
+    title: ["The Whistleblower Manifesto", "Transparency Protocol", "The $50M Shield", "Workers Comp Secrets", "The Broker Trap", "Nuclear Verdicts", "Contractual Warfare", "The CEO's Playbook", "Residual Wealth", "The Industry Manifesto", "Liability Gaps", "The Premium Myth", "Asset Protection", "The Audit Trail", "Policy Loopholes", "The Risk Architect", "Wealth Preservation", "The Industry Lie", "Strategic Coverage", "The Boss Standard"][i] || `Strategy ${i + 1}`,
+    content: "Carousel Strategy",
+    copy: `Don't let your agent's comfort be your company's downfall. We expose what they hide. #InsuranceBoss #RiskManagement #BusinessProtection`,
+    hashtags: "#InsuranceBoss #RiskManagement #BusinessProtection #Whistleblower #CorporateSecurity",
+    description: "A high-authority carousel designed to position IB as the ultimate risk architect."
+  })),
+  // 20 Reels
+  ...Array.from({ length: 20 }).map((_, i) => ({
+    id: generateId(),
+    day: i + 21,
+    date: getFutureDate(i + 21),
+    week: Math.floor((i + 20) / 7) + 1,
+    weekTheme: [WeekTheme.WEEK1, WeekTheme.WEEK2, WeekTheme.WEEK3, WeekTheme.WEEK4][Math.floor((i + 20) / 7)] || WeekTheme.WEEK4,
+    account: ib,
+    category: 'Reel' as const,
+    title: ["The Industry Secret", "The Lawsuit Trap", "The Bankrupt Reality", "The One Mistake", "Why Your Agent is Quiet", "The Hidden Fee", "The Policy Truth", "Risk Exposure", "The Audit Hack", "Wealth Strategy", "The Broker Lie", "Liability Shield", "The CEO Secret", "Contractual Risk", "The Boss Move", "Industry Exposure", "The Silent Threat", "Asset Defense", "The Whistleblower", "The Final Audit"][i] || `Reel Topic ${i + 1}`,
+    content: "High-impact Reel strategy.",
+    backgroundImagePrompt: [
+      "Cinematic, dark boardroom with a single lit chair, moody shadows, 8k.",
+      "Dramatic shot of a legal gavel hitting a marble table, blurred background, corporate setting, 8k.",
+      "Abstract visualization of falling dominoes made of high-end glass, representing financial collapse, 8k.",
+      "Close-up of an eye reflecting a digital policy document, intense lighting, 8k.",
+      "A quiet, luxury office hallway with deep shadows, cinematic B&W, 8k.",
+      "Close-up of a magnifying glass over a contract with fine print highlighted, 8k.",
+      "A stack of leather-bound policy books on a mahogany desk, moody lighting, 8k.",
+      "Visualization of a heat map over a corporate building, representing risk exposure, 8k.",
+      "A hand typing precisely on a high-end mechanical keyboard in a dark room, 8k.",
+      "Golden bars stacked in a pyramid shape, reflecting a modern city skyline at sunset, 8k.",
+      "A blurry silhouette of two corporate figures shaking hands in a dark alley, cinematic, 8k.",
+      "A heavy steel vault door partially open, revealing a glow from inside, 8k.",
+      "A high-end CEO looking out of a floor-to-ceiling window at night, 8k.",
+      "Two fountain pens crossed over a contract, dramatic lighting, 8k.",
+      "A luxury sports car parked in front of a modern glass skyscraper, cinematic lighting, 8k.",
+      "Close-up of a digital screen showing flashing red alert signals in a dark server room, 8k.",
+      "A single candle burning in a massive, dark corporate lobby, symbolic of a silent threat, 8k.",
+      "A shield emblem etched into a granite wall, strong shadows, 8k.",
+      "A microphone on a stand in a dark room, spotlight focusing on it, whistleblower aesthetic, 8k.",
+      "A finished puzzle piece being placed into a complex board, representing the final audit, 8k."
+    ][i] || `Cinematic, dark, high-end corporate office, moody lighting, 8k resolution.`,
+    copy: `The truth about your policy is on page 42. We've already read it. #InsuranceBoss #BusinessOwner #Liability`,
+    hashtags: "#InsuranceBoss #BusinessOwner #Liability #InsuranceAudit #Whistleblower",
+    description: "Fast-paced, high-impact reel with a whistleblower vibe."
+  })),
+  // 20 Videos
+  ...Array.from({ length: 20 }).map((_, i) => ({
+    id: generateId(),
+    day: i + 41,
+    date: getFutureDate(i + 41),
+    week: Math.floor((i + 40) / 7) + 1,
+    weekTheme: [WeekTheme.WEEK1, WeekTheme.WEEK2, WeekTheme.WEEK3, WeekTheme.WEEK4][Math.floor((i + 40) / 7)] || WeekTheme.WEEK4,
+    account: ib,
+    category: 'Video' as const,
+    title: ["The $50M Reality", "Workers Comp Heist", "The AI Liability", "Contract War", "Renewal Revolution", "The Risk Blueprint", "Wealth Engineering", "The Audit Masterclass", "Liability Defense", "The CEO Protocol", "Strategic Protection", "The Industry Shift", "Asset Security", "The Risk Factor", "The Boss Perspective", "Corporate Defense", "The Audit Standard", "Wealth Architecture", "The Policy War", "The Final Word"][i] || `Video Deep Dive ${i + 1}`,
+    content: "Professional video deep dive.",
+    backgroundImagePrompt: `Cinematic, dark, high-end corporate office overlooking a city at night, moody lighting, 8k resolution, professional aesthetic.`,
+    copy: `In the world of mid-market business, 'fully covered' is a dangerous lie. Here is how we architect real certainty.`,
+    hashtags: "#InsuranceBoss #CorporateStrategy #RiskAudit #BusinessGrowth #EliteProtection",
+    description: "A professional video with an animated background for high engagement."
+  }))
 ];
 
 const QC_POSTS: PostTask[] = [
-  ...generateCategoryBatch(qc, 'Carousel', [
-    { title: "The 2026 Homeowner's Guide", content: "Slide 1: Why 2026 is the year to rethink your coverage. Slide 2: Rising costs vs. The QC Bundle. Slide 3: Protecting your equity in a changing market. Slide 4: Real neighbor success stories. Slide 5: Get your free guide today. Warm golden hour lighting." },
-    { title: "Inflation-Proof Your Policy", content: "Slide 1: Don't let inflation shrink your safety net. Slide 2: Adjusting limits without breaking the bank. Slide 3: The QC 'Value Lock' strategy. Slide 4: Real savings data for 2026. Slide 5: Review your policy with a neighbor. Friendly, helpful tone." },
-    { title: "The First-Time Buyer's Shield", content: "Slide 1: Just got the keys? Here's your protection plan. Slide 2: Home + Auto = The Foundation. Slide 3: Why gaps in coverage are a new owner's nightmare. Slide 4: The QC welcome package. Slide 5: Secure your first home today. Heartfelt imagery." },
-    { title: "Auto Insurance Myths Debunked", content: "Slide 1: 'Red cars cost more' and other lies. Slide 2: The truth about full coverage in 2026. Slide 3: How your commute actually impacts your rate. Slide 4: The QC transparency report. Slide 5: Get the facts, save the money. Bright morning sun." },
-    { title: "The Multi-Gen Bundle", content: "Slide 1: Saving together as a family. Slide 2: How multi-gen households can stack discounts. Slide 3: One policy for the whole nest. Slide 4: Real stories of families saving $1,200+. Slide 5: Bring the family to QC. Tech-lifestyle aesthetic." },
-    { title: "Smart Tech, Real Savings", content: "Slide 1: Your smart home is a discount machine. Slide 2: Leak detectors, cameras, and smart locks. Slide 3: How tech lowers your risk profile. Slide 4: The QC 'Smart Credit' program. Slide 5: Modernize your protection today. Friendly interactions." },
-    { title: "The QC Neighborhood Promise", content: "Slide 1: We're not just your agents; we're your neighbors. Slide 2: Local support when you need it most. Slide 3: Why community-first insurance wins in 2026. Slide 4: Our commitment to you. Slide 5: Join the neighborhood today. Calm, bright aesthetic." }
-  ]),
-  ...generateCategoryBatch(qc, 'Reel', [
-    { title: "The $1,200 Bundle Surprise", content: "A young couple opening an envelope on a sun-drenched porch. 'That moment you realize bundling Home + Auto just paid for your summer vacation.' Warm golden hour." },
-    { title: "The 'Just in Case' Coffee", content: "Two neighbors chatting over a fence with coffee. 'Insurance shouldn't be a headache. It's just looking out for each other. Let's talk coverage.' Friendly and authentic." },
-    { title: "The 2026 Safe Driver Bonus", content: "POV of a clean car interior driving through a green neighborhood. 'Your good habits are literally putting money back in your pocket this year. See the QC difference.' Bright morning sun." },
-    { title: "The First Home Hug", content: "A family hugging in front of a 'Sold' sign. 'Protecting your first big dream is our favorite part of the job. Welcome to the neighborhood.' Heartfelt and emotional." },
-    { title: "The Smart Home Savings Hack", content: "Quick clips of a smart doorbell and a leak sensor. 'These little gadgets aren't just cool—they're discount magnets at Quick Coverage.' Tech-lifestyle aesthetic." },
-    { title: "The Claims Hero: Flat Tire Edition", content: "A friendly agent arriving with a smile to help a stranded driver. 'We're not just a policy; we're the person who shows up when things go wrong.' Reassuring and helpful." },
-    { title: "The Neighborhood Rate Lock", content: "A group of diverse neighbors laughing at a block party. 'In a world of rising costs, we're locking in value for our community. Join the QC family.' Calm, bright aesthetic." }
-  ]),
-  ...generateCategoryBatch(qc, 'Infographic', [
-    { title: "The 2026 Savings Roadmap", content: "A clean, colorful path showing the steps from safe driving to the ultimate multi-policy bundle. Friendly icons." },
-    { title: "Bundle vs. Solo: The Math", content: "A side-by-side comparison of two families' budgets. One with QC (thriving) vs. one with split policies (struggling)." },
-    { title: "Home Maintenance = Lower Rates", content: "Visual checklist of roof care, gutter cleaning, and pipe insulation with potential savings callouts." },
-    { title: "The 3-Step Switch", content: "A simple 1-2-3 photo sequence showing how easy it is to move your policies to QC. No jargon, just help." },
-    { title: "Discount Deep Dive", content: "A visual map of a family home highlighting hidden credits: security, smart tech, and safe neighborhood bonuses." },
-    { title: "The Claims Safety Net", content: "A reassuring photo-based flow chart: 1. Stay Safe, 2. Call Your Neighbor, 3. We Handle It, 4. Peace of Mind." },
-    { title: "Your Family's Protection Shield", content: "A friendly diagram showing how Home, Auto, and Life insurance overlap to create a total safety net." }
-  ]),
-  ...generateCategoryBatch(qc, 'YouTube Shorts', [
-    { title: "The $400 Challenge", content: "Send us your dec page and we'll beat it or coffee's on us. Shot in a bright local cafe." },
-    { title: "Don't Forget Renters", content: "Quick tip for apartment dwellers about the $10/mo policy that saves your life." },
-    { title: "New SUV Hack", content: "Why you should quote insurance BEFORE you buy the car at the dealership." },
-    { title: "The Roof Secret", content: "How a 10-year roof can double your home insurance if you don't update the age." },
-    { title: "Good Student Credit", content: "Reminding parents to send in report cards for that 15% car discount." },
-    { title: "Water Heater Alert", content: "If yours is over 12 years old, your policy might be in trouble. Check it now." },
-    { title: "Welcome Home!", content: "A 15-second celebrate of a new homeowner getting their binders in time for closing." }
-  ]),
-  ...generateCategoryBatch(qc, 'Meme', [
-    { title: "The Loyalty Penalty", content: "Photo of someone sadly paying a huge bill. Caption: When you stay with the same carrier for 10 years without shopping." },
-    { title: "The Bundle Smile", content: "A happy family at a BBQ. Caption: That feeling when your Home+Auto bundle drops the rate by 30%." },
-    { title: "Direct Quote Disaster", content: "Photo of someone frustrated at a laptop. Caption: Trying to understand a 1-800 agent's fine print." },
-    { title: "Quick Coverage Speed", content: "Photo of a friendly agent handing over keys. Caption: We got the binder done before the realtor finished the paperwork." },
-    { title: "The 2026 Savings", content: "Caption: Me finding $600 in my budget after one phone call to QC." },
-    { title: "Safe Driver Flex", content: "Photo of a safe driver app screen (re-enacted with people). Caption: Getting that 20% discount for my daily commute." },
-    { title: "Neighborly Help", content: "Photo of neighbors talking over a fence. Caption: Telling the neighbors how much you saved on your bundle." }
-  ]),
-  ...generateCategoryBatch(qc, 'Text', [
-    { title: "Why Bundling Still Wins", content: "A warm, helpful explanation of the multi-policy math for 2026." },
-    { title: "Protecting the Nest", content: "Heartfelt advice for first-time parents on setting up a safety net." },
-    { title: "The Realtor's Secret", content: "Why agents love working with Quick Coverage for their clients' closings." },
-    { title: "Spring Home Prep", content: "A checklist for homeowners to lower their risk and their rates this season." },
-    { title: "The Truth About Life", content: "Simple, non-scary talk about term life insurance for young families." },
-    { title: "Car Insurance 101", content: "Explaining deductibles and liability limits in plain English for parents." },
-    { title: "The QC Promise", content: "Why we treat every client like a next-door neighbor." }
-  ]),
-  ...generateCategoryBatch(qc, 'Story', [
-    { title: "Coffee & Coverage", content: "Friendly agent chat in a bright morning sun. Full color, warm vibes." },
-    { title: "Closing Day Success", content: "Celebrating a family getting the keys to their first home. Cinematic lighting." },
-    { title: "New Car Prep", content: "Adding a new vehicle to a policy in 30 seconds while in the driveway." },
-    { title: "Bundle Savings Reveal", content: "A quick screenshot of a 'Saved $540' notification (re-enacted)." },
-    { title: "Storm Prep Tips", content: "Friendly tips on securing outdoor furniture before the rain hits." },
-    { title: "Community Shoutout", content: "Highlighting a local family business we just protected." },
-    { title: "Ask Me Anything", content: "Quick Q&A on homeowners insurance for young buyers." }
-  ]),
-  ...generateCategoryBatch(qc, 'Video', [
-    { title: "The $600 Savings Story", content: "A 60-second mini-doc following a real family through the quoting process." },
-    { title: "Home Insurance Decoded", content: "A friendly, bright video explaining what 'Replacement Cost' actually means." },
-    { title: "The Bundle Masterclass", content: "Explaining the benefits of having all your policies under one roof." },
-    { title: "Safe Home, Safe Rates", content: "A walkthrough of a modern home showing the small devices that save big on premiums." },
-    { title: "The Realtor Partnership", content: "Interview with a local real estate pro on why QC is their first call." },
-    { title: "Teen Driver Safety", content: "Tips for parents on keeping rates low when the kids start driving." },
-    { title: "Life for Beginners", content: "A warm, emotional video on why term life insurance is the ultimate family gift." }
-  ]),
-  ...generateCategoryBatch(qc, 'Slide', [
-    { title: "5 Steps to Savings", content: "Visualizing the switch process with warm family photos." },
-    { title: "The Bundle Breakdown", content: "Showing Home vs Auto vs Bundle rates with simple icons." },
-    { title: "Claims Help Checklist", content: "Photos of what to do in an accident (stay calm, call us)." },
-    { title: "New Homeowner Tips", content: "Important things to check on your first week." },
-    { title: "Discounts Available", content: "A simple list of things that lower your premiums." },
-    { title: "The QC Process", content: "How we get you a better rate in under 10 minutes." },
-    { title: "Family Protection Tiers", content: "Simple visual of basic vs premium safety nets." }
-  ]),
-  ...generateCategoryBatch(qc, 'Holiday', [
-    { title: "Safe 4th of July", content: "Friendly tips on fireworks safety in the backyard. Sun-drenched family photos." },
-    { title: "Home for the Holidays", content: "Protecting the house while you travel. Warm winter home interior." },
-    { title: "Thanksgiving Table", content: "Grateful for the families who trust us with their security. Cinematic kitchen." },
-    { title: "Halloween Safety", content: "Tips for trick-or-treaters and porch safety. Warm evening lighting." },
-    { title: "Mother's Day Shield", content: "Honoring the protectors of the home. Heartfelt family moment." },
-    { title: "Father's Day Strength", content: "For the dads who build the foundation. Cinematic backyard grill." },
-    { title: "New Year, New Quote", content: "The best resolution for your budget. Bright morning sun." }
-  ])
+  // 20 Carousels
+  ...Array.from({ length: 20 }).map((_, i) => ({
+    id: generateId(),
+    day: i + 1,
+    date: getFutureDate(i + 1),
+    week: Math.floor(i / 7) + 1,
+    weekTheme: [WeekTheme.WEEK1, WeekTheme.WEEK2, WeekTheme.WEEK3, WeekTheme.WEEK4][Math.floor(i / 7)] || WeekTheme.WEEK4,
+    account: qc,
+    category: 'Carousel' as const,
+    title: ["The 2026 Home Guide", "Inflation-Proofing", "First-Time Shield", "Auto Myth Busters", "The Multi-Gen Bundle", "Smart Tech Savings", "Neighborhood Promise", "The $1200 Hack", "Safe Driver Bonus", "Spring Home Prep", "The Bundle Hack", "Local Savings", "Family Shield", "The Tech Advantage", "Community Trust", "The Savings Protocol", "Home Security", "The Neighborhood Way", "Smart Coverage", "The QC Standard"][i] || `Neighbor Guide ${i + 1}`,
+    content: "Community Carousel Strategy",
+    copy: `Insurance shouldn't be a headache. We're your neighbors, here to help you save. #QuickCoverage #HomeInsurance #SaveMoney`,
+    hashtags: "#QuickCoverage #HomeInsurance #SaveMoney #Neighborhood #FamilyProtection",
+    description: "Friendly, bright, and helpful carousel for the local community."
+  })),
+  // 20 Reels
+  ...Array.from({ length: 20 }).map((_, i) => ({
+    id: generateId(),
+    day: i + 21,
+    date: getFutureDate(i + 21),
+    week: Math.floor((i + 20) / 7) + 1,
+    weekTheme: [WeekTheme.WEEK1, WeekTheme.WEEK2, WeekTheme.WEEK3, WeekTheme.WEEK4][Math.floor((i + 20) / 7)] || WeekTheme.WEEK4,
+    account: qc,
+    category: 'Reel' as const,
+    title: ["The $1,200 Surprise", "The Fence Chat", "Safe Driver POV", "The First Home Hug", "Smart Home Hack", "The Local Hero", "Savings in 60s", "The Neighborhood View", "Community Care", "The QC Way", "Home Hacks", "Auto Tips", "The Bundle Win", "Safe Streets", "The Neighborly Move", "Quick Tips", "Family Moments", "The Porch Talk", "Street Smart", "The Final Save"][i] || `Community Reel ${i + 1}`,
+    content: "Warm, authentic community Reel.",
+    backgroundImagePrompt: [
+      "Warm, sun-drenched envelope with a $1,200 check partially visible, on a kitchen table, 8k.",
+      "Two neighbors talking over a white picket fence, sun setting in the background, warm light, 8k.",
+      "POV shot from a driver's seat of a safe car on a quiet neighborhood street, sunny morning, 8k.",
+      "A young couple hugging in front of their new home, bright morning sun, joyful, 8k.",
+      "Close-up of a smart home doorbell being used, modern friendly house background, 8k.",
+      "A local agent helping an elderly neighbor with groceries, warm community setting, 8k.",
+      "A digital timer showing 60 seconds over a piggy bank, bright sunny background, 8k.",
+      "Aerial view of a beautiful, green suburban neighborhood with kids playing, 8k.",
+      "A bowl of fresh apples on a community table, people talking in a sunny park background, 8k.",
+      "The Quick Coverage logo on a friendly neighborhood office window, bright morning, 8k.",
+      "Close-up of a toolbox next to a home improvement project, sunny backyard, 8k.",
+      "A set of car keys on a wooden table next to a sunny window, friendly and cozy, 8k.",
+      "A gift box with a ribbon, appearing as a 'bundle', on a doorstep in the sun, 8k.",
+      "A quiet, safe street with a 'Slow: Children at Play' sign, bright afternoon light, 8k.",
+      "A neighbor bringing over a pie, warm golden hour lighting, authentic, 8k.",
+      "A hand-written checklist with 'Savings' checked off, sunny coffee shop setting, 8k.",
+      "A happy family having a picnic in their own backyard, bright and cheerful, 8k.",
+      "Two chairs on a front porch with a glass of lemonade, warm afternoon sun, 8k.",
+      "A smart car driving slowly through a modern neighborhood at dusk, warm lights, 8k.",
+      "A piggy bank being filled with coins, bright and happy lighting, 8k."
+    ][i] || `Warm, sun-drenched suburban neighborhood, friendly house, bright morning light, 8k resolution.`,
+    copy: `We're not just your agents; we're your neighbors. Let's talk coverage. #QuickCoverage #Neighborly #InsuranceSavings`,
+    hashtags: "#QuickCoverage #Neighborly #InsuranceSavings #Community #SafeDriving",
+    description: "Warm, authentic reel with a community focus."
+  })),
+  // 20 Videos
+  ...Array.from({ length: 20 }).map((_, i) => ({
+    id: generateId(),
+    day: i + 41,
+    date: getFutureDate(i + 41),
+    week: Math.floor((i + 40) / 7) + 1,
+    weekTheme: [WeekTheme.WEEK1, WeekTheme.WEEK2, WeekTheme.WEEK3, WeekTheme.WEEK4][Math.floor((i + 40) / 7)] || WeekTheme.WEEK4,
+    account: qc,
+    category: 'Video' as const,
+    title: ["The $600 Story", "Home Decoded", "Bundle Masterclass", "Safe Home Rates", "Realtor Partnership", "The Community Story", "Savings Walkthrough", "The Neighborhood Guide", "Family Protection", "The QC Promise", "Homeowner Tips", "Auto Safety", "The Bundle Advantage", "Local Impact", "The Neighborly Standard", "Quick Coverage Deep Dive", "Family Security", "The Porch Perspective", "Street Safety", "The Final Word"][i] || `Community Deep Dive ${i + 1}`,
+    content: "Friendly neighborhood video walkthrough.",
+    backgroundImagePrompt: `Warm, sun-drenched suburban neighborhood, friendly house with a green lawn, bright morning light, cozy and inviting, 8k resolution.`,
+    copy: `Real stories from real neighbors. See how Quick Coverage is changing the way we protect our homes.`,
+    hashtags: "#QuickCoverage #Homeowner #FamilyFirst #LocalBusiness #InsuranceTips",
+    description: "Bright and reassuring video with an animated neighborhood background."
+  }))
 ];
 
-const generatePlaceholders = (account: AccountType): PostTask[] => {
-    const cats: PostCategory[] = ['Reel', 'Slide', 'Meme', 'Story', 'Text', 'Video', 'Holiday', 'YouTube Shorts', 'Infographic', 'Carousel'];
-    let batch: PostTask[] = [];
+const LIB_POSTS: PostTask[] = [
+  // 20 Carousels
+  ...Array.from({ length: 20 }).map((_, i) => ({
+    id: generateId(),
+    day: i + 1,
+    date: getFutureDate(i + 1),
+    week: Math.floor(i / 7) + 1,
+    weekTheme: [WeekTheme.WEEK1, WeekTheme.WEEK2, WeekTheme.WEEK3, WeekTheme.WEEK4][Math.floor(i / 7)] || WeekTheme.WEEK4,
+    account: lib,
+    category: 'Carousel' as const,
+    title: ["The Life Shield", "Legacy Secrets", "The Provider's Edge", "Term vs Whole", "The Cost of Waiting", "Family Security Audit", "The Legacy Blueprint", "Wealth Gap Fix", "The CEO of Home", "The Boss's Promise", "Generational Wealth", "The Love Letter", "Asset Fortress", "The Future Proof", "Legacy Building", "The LIB Standard", "Wealth Architecture", "Family First", "The Boss Strategy", "The Final Promise"][i] || `Legacy Strategy ${i + 1}`,
+    content: "Legacy Carousel Strategy",
+    copy: `Life insurance is the ultimate act of love. We help you build a fortress for your family's future. #LifeInsuranceBoss #Legacy #FamilyProtection`,
+    hashtags: "#LifeInsuranceBoss #Legacy #FamilyProtection #WealthBuilding #FutureProof",
+    description: "Elegant, emotional, and strategic carousel focused on legacy."
+  })),
+  // 20 Reels
+  ...Array.from({ length: 20 }).map((_, i) => ({
+    id: generateId(),
+    day: i + 21,
+    date: getFutureDate(i + 21),
+    week: Math.floor((i + 20) / 7) + 1,
+    weekTheme: [WeekTheme.WEEK1, WeekTheme.WEEK2, WeekTheme.WEEK3, WeekTheme.WEEK4][Math.floor((i + 20) / 7)] || WeekTheme.WEEK4,
+    account: lib,
+    category: 'Reel' as const,
+    title: ["Viral Life Hacks", "The Provider's POV", "Legacy in 60s", "The Audit Reaction", "Life Insurance Truths", "The Wealth Hack", "Family First POV", "Legacy Moments", "The Boss View", "Future Security", "The Love Policy", "Wealth Strategy", "The Provider's Move", "Legacy Tips", "The LIB Way", "Quick Legacy", "Family Wealth", "The Boss POV", "Future Proof", "The Final Word"][i] || `Legacy Reel ${i + 1}`,
+    content: "Cinematic, emotional legacy Reel.",
+    backgroundImagePrompt: [
+      "Elegant, high-end library with an iPad showing a viral financial video, cinematic lighting, 8k.",
+      "POV of a father watching his children play through a large study window, warm nostalgic light, 8k.",
+      "A vintage hourglass on a stack of leather books, warm fireplace glow, 8k.",
+      "A shocked expression of a person looking at a document in a high-end office, dramatic side-lighting, 8k.",
+      "Close-up of a hand-written letter titled 'TO MY FAMILY', on a wooden desk with a candle, 8k.",
+      "A golden key sitting on an architectural blueprint, elegant and sharp, 8k.",
+      "POV of a parent's hand holding a child's hand in a sunlit field, soft and cinematic, 8k.",
+      "A sepia-toned photograph of a classic family car, sitting on a modern walnut shelf, 8k.",
+      "A silhouette of the Life Insurance Boss looking out at a sunrise from a sky-high balcony, 8k.",
+      "A strong, modern safe box elegantly integrated into a wooden library wall, 8k.",
+      "A heart shape formed by a wedding ring and its reflection on a polished table, 8k.",
+      "A complex chess game mid-play, focusing on a protective move, moody lighting, 8k.",
+      "A high-end provider walking into a modern glass office, confidence and power, 8k.",
+      "A close-up of a digital tablet showing 'Legacy Checklist' with items checked off, 8k.",
+      "The LIB logo elegantly embossed on a leather-bound journal, warm lighting, 8k.",
+      "A fast-paced blur of light through a timeless library corridor, representing time, 8k.",
+      "A large family tree illustrated on a classic canvas in a grand hallway, 8k.",
+      "The Boss's perspective looking over a family trust document, cinematic and serious, 8k.",
+      "A shield made of light protecting a silhouette of a family, abstract and cinematic, 8k.",
+      "The final page of a book being closed, a sense of completion and peace, 8k."
+    ][i] || `Elegant, timeless library, warm fireplace glow, soft cinematic lighting, 8k resolution.`,
+    copy: `Wealth isn't what you leave; it's who you leave it to. Become a Life Insurance Boss today. #LifeInsuranceBoss #Legacy #Wealth`,
+    hashtags: "#LifeInsuranceBoss #Legacy #Wealth #FamilyLegacy #Protection",
+    description: "Cinematic, emotional reel with a focus on family and future."
+  })),
+  // 20 Videos
+  ...Array.from({ length: 20 }).map((_, i) => ({
+    id: generateId(),
+    day: i + 41,
+    date: getFutureDate(i + 41),
+    week: Math.floor((i + 40) / 7) + 1,
+    weekTheme: [WeekTheme.WEEK1, WeekTheme.WEEK2, WeekTheme.WEEK3, WeekTheme.WEEK4][Math.floor((i + 40) / 7)] || WeekTheme.WEEK4,
+    account: lib,
+    category: 'Video' as const,
+    title: ["The Legacy Story", "Life Decoded", "Audit Masterclass", "Wealth Building", "The Provider's Journey", "The Empire Story", "Legacy Walkthrough", "The Future Guide", "Family Security", "The LIB Promise", "Wealth Architecture", "The Boss Journey", "Legacy Deep Dive", "Future Planning", "The Provider's Standard", "Empire Building", "Legacy Strategy", "The Boss Perspective", "Wealth Protocol", "The Final Word"][i] || `Legacy Deep Dive ${i + 1}`,
+    content: "Cinematic legacy exploration video.",
+    backgroundImagePrompt: `Elegant, timeless library with leather-bound books, warm fireplace glow, soft cinematic lighting, 8k resolution, sophisticated atmosphere.`,
+    copy: `Your family's story deserves a foundation that never crumbles. Here is how we build legacies that last for generations.`,
+    hashtags: "#LifeInsuranceBoss #LegacyPlanning #FamilyWealth #Protection #BossMindset",
+    description: "Cinematic and sophisticated video with an animated library background."
+  }))
+];
+
+const IB_SPECIAL_REELS: PostTask[] = [
+  ...Array.from({ length: 15 }).map((_, i) => {
+    const subCats = ["Whole Life", "Universal Life", "Term Life", "Mortgage Protection", "Disability"];
+    const subCat = subCats[i % subCats.length];
+    const topicIndex = Math.floor(i / subCats.length); // 0, 1, or 2
     
-    const getAccountTitles = (acc: AccountType, cat: PostCategory) => {
-        if (acc === AccountType.LIB) {
-            switch (cat) {
-                case 'Carousel':
-                    return [
-                        { title: "The Life Shield", content: "Slide 1: Why life insurance is the ultimate act of love. Slide 2: Term vs Whole Life. Slide 3: Protecting your family's future. Slide 4: The cost of waiting. Slide 5: Get covered today." },
-                        { title: "Legacy Secrets", content: "Slide 1: Building generational wealth. Slide 2: Tax-free growth. Slide 3: The power of cash value. Slide 4: Passing the torch. Slide 5: The LIB Blueprint." },
-                        { title: "The Provider's Edge", content: "Slide 1: Protecting your most valuable asset. Slide 2: Income replacement math. Slide 3: Debt elimination. Slide 4: Education funding. Slide 5: Total security." },
-                        { title: "Term vs Whole", content: "Slide 1: The great debate. Slide 2: When Term wins. Slide 3: When Whole Life is a must. Slide 4: The hybrid strategy. Slide 5: Ask the Boss." },
-                        { title: "The Cost of Waiting", content: "Slide 1: Age is your biggest risk factor. Slide 2: Health rating impact. Slide 3: The compound loss of delay. Slide 4: Locking in your rate. Slide 5: Act now." },
-                        { title: "Family Security Audit", content: "Slide 1: 5 questions to ask today. Slide 2: Beneficiary check. Slide 3: Coverage gap analysis. Slide 4: Policy review. Slide 5: Schedule your audit." },
-                        { title: "The Legacy Blueprint", content: "Slide 1: Planning for 100 years. Slide 2: Trust integration. Slide 3: Estate tax protection. Slide 4: The LIB method. Slide 5: Build your empire." }
-                    ];
-                case 'Reel':
-                    return [
-                        { title: "Viral Life Hacks", content: "High-energy shots of families and future planning. 'The hack to 10x your family's security in 10 minutes.' Emotional and impactful." },
-                        { title: "The Provider's POV", content: "POV shot of signing a policy. 'This isn't a bill; it's a love letter to my kids.' Moody lighting." },
-                        { title: "Legacy in 60 Seconds", content: "Fast-paced montage of family moments. 'Wealth isn't what you leave; it's who you leave it to.' Cinematic B&W." },
-                        { title: "The Audit Reaction", content: "Reaction video to a massive coverage gap. 'Don't let this happen to your family.' Authoritative tone." },
-                        { title: "Life Insurance Truths", content: "Direct address to camera. 'Why the industry wants you to stay under-insured.' Whistleblower vibes." },
-                        { title: "The Peace of Mind Walk", content: "Walking through a quiet park. 'Knowing they're safe is the only way I sleep.' Grounded power." },
-                        { title: "Boss Strategy Session", content: "Quick clip of a strategy board. 'Mapping out a 3-generation legacy.' High energy." }
-                    ];
-                case 'Infographic':
-                    return [
-                        { title: "The Life Insurance Pyramid", content: "Visualizing the layers of protection from basic term to complex legacy planning. B&W aesthetic." },
-                        { title: "The Cost of Delay Map", content: "A chart showing how premiums rise every year you wait. High contrast." },
-                        { title: "Term vs. Whole Comparison", content: "A side-by-side breakdown of features, costs, and benefits. Clear and strategic." },
-                        { title: "The Legacy Flowchart", content: "How a policy payout transforms into generational wealth. LIB style." },
-                        { title: "Income Replacement Math", content: "A simple formula for calculating how much coverage your family actually needs." },
-                        { title: "The Asset Shield", content: "How life insurance protects your other investments from estate taxes." },
-                        { title: "7 Steps to Coverage", content: "The LIB onboarding process from audit to binder. Practical guide." }
-                    ];
-                case 'YouTube Shorts':
-                    return [
-                        { title: "The $1M Lie", content: "Why $1M in life insurance isn't enough for a family of four in 2026." },
-                        { title: "Age vs. Premium", content: "The shocking difference between buying at 25 vs. 35. Don't wait." },
-                        { title: "The Beneficiary Trap", content: "The one mistake that sends your life insurance to probate. Fix it now." },
-                        { title: "Term Conversion Hack", content: "How to turn your cheap term policy into a wealth-building asset later." },
-                        { title: "The 'Free' Work Policy", content: "Why relying on your employer's life insurance is a dangerous gamble." },
-                        { title: "Instant Approval Secrets", content: "How to get covered in minutes without a medical exam. The LIB way." },
-                        { title: "Legacy in a Box", content: "The 3 documents every provider needs to have in their safe today." }
-                    ];
-                case 'Meme':
-                    return [
-                        { title: "The Uninsured Panic", content: "B&W photo of someone looking stressed at a hospital bill. Caption: When you 'saved money' by skipping life insurance." },
-                        { title: "The Legacy Flex", content: "Someone sitting calmly with their family. Caption: Knowing the empire is protected for 3 generations." },
-                        { title: "The Audit Discovery", content: "Focus on a highlighter on a policy. Caption: Finding the $2M gap in your 'full coverage' policy." },
-                        { title: "The Provider's Sleep", content: "A peaceful night city shot. Caption: The sleep you get when your family's future is signed and sealed." },
-                        { title: "The 'Later' Excuse", content: "A photo of a dusty clock. Caption: 'I'll get life insurance when I'm older' - The most expensive sentence ever." },
-                        { title: "The LIB Difference", content: "Caption: Explaining to the kids why they're already millionaires in the eyes of the Boss." },
-                        { title: "The Signature Moment", content: "Caption: The exact moment you become a Life Insurance Boss." }
-                    ];
-                case 'Text':
-                    return [
-                        { title: "The Provider's Manifesto", content: "A deep dive into the moral obligation of life insurance for the modern provider." },
-                        { title: "Legacy vs. Inheritance", content: "Why we build legacies that teach, not just inheritances that spoil. The LIB philosophy." },
-                        { title: "The Math of Love", content: "Breaking down why a policy is the most logical expression of emotional commitment." },
-                        { title: "2026 Legacy Outlook", content: "Why the next decade requires a more aggressive approach to family protection." },
-                        { title: "The Wealth Gap Fix", content: "How life insurance is the ultimate tool for closing the generational wealth gap." },
-                        { title: "The CEO of the Home", content: "Treating your family's security like a Fortune 500 company. Strategic and relentless." },
-                        { title: "The Boss's Promise", content: "Our commitment to ensuring no family is left behind in the new economy." }
-                    ];
-                case 'Story':
-                    return [
-                        { title: "The Audit Walk", content: "Quick clips of reviewing a family's current coverage. Finding the gaps. Moody B&W." },
-                        { title: "Legacy Session", content: "Behind the scenes of a legacy planning meeting. No faces, just the strategy. Cinematic." },
-                        { title: "The Binder Win", content: "Showing a 'Policy Issued' notification. Another family secured. Grounded power." },
-                        { title: "Provider Tips", content: "Quick talking head on the importance of beneficiary updates. Direct and authoritative." },
-                        { title: "The LIB Lifestyle", content: "Glimpses of a secure, well-planned life. Peace of mind in every frame. B&W." },
-                        { title: "Join the Mission", content: "Call to action for those ready to become a Life Insurance Boss. Direct." },
-                        { title: "The Morning Review", content: "Espresso and a stack of policy reviews. The grind of protection. Cinematic." }
-                    ];
-                case 'Video':
-                    return [
-                        { title: "The Legacy Story", content: "A 3-minute mini-doc on a family that used LIB to build a 3-generation empire." },
-                        { title: "Life Insurance Decoded", content: "A strategic tutorial on the different types of coverage and how to choose." },
-                        { title: "The Audit Masterclass", content: "A walkthrough of our Whistleblower Audit process for life insurance." },
-                        { title: "Wealth Building 101", content: "How to use permanent life insurance as a bank for your business. The LIB way." },
-                        { title: "The Provider's Journey", content: "The story of why we focus on life insurance as the foundation of every empire." },
-                        { title: "Claims Reality", content: "A sobering look at what happens to families without proper protection. Authoritative." },
-                        { title: "Boss Origins: LIB", content: "The moment we realized the industry was failing families and decided to fix it." }
-                    ];
-                case 'Slide':
-                    return [
-                        { title: "5 Legacy Traps", content: "Text-based slide on common estate planning mistakes in 2026." },
-                        { title: "The Wealth Ladder", content: "Visualizing the steps from debt to generational wealth via LIB. B&W." },
-                        { title: "Estate Tax 2026", content: "Key data points for high-net-worth families on protecting their assets." },
-                        { title: "The Audit Checklist", content: "7 things to check in your life insurance policy today. Practical." },
-                        { title: "Term Conversion Math", content: "When and why to convert your term policy to permanent. The numbers." },
-                        { title: "Beneficiary Strategy", content: "How to structure your payouts to avoid probate and taxes. Strategic." },
-                        { title: "The LIB Commitment", content: "Our values and the promise we make to every family we shield." }
-                    ];
-                case 'Holiday':
-                    return [
-                        { title: "Father's Day Legacy", content: "The ultimate gift for your children is a future that's already paid for. B&W." },
-                        { title: "Mother's Day Shield", content: "Protecting the heart of the home with relentless strategic planning. Cinematic." },
-                        { title: "New Year's Audit", content: "Starting the year with a total family security review. The Boss way." },
-                        { title: "Thanksgiving Legacy", content: "Grateful for the peace of mind that comes with a complete shield. B&W." },
-                        { title: "Christmas Protection", content: "The best thing under the tree is a signed policy they'll never have to worry about." },
-                        { title: "Independence Day", content: "True independence is knowing your family is free from financial risk. B&W." },
-                        { title: "The Year-End Review", content: "Closing the year by ensuring the legacy is stronger than ever. Cinematic." }
-                    ];
-                default:
-                    return [
-                        { title: "The Life Shield", content: "Slide 1: Why life insurance is the ultimate act of love. Slide 2: Term vs Whole Life. Slide 3: Protecting your family's future. Slide 4: The cost of waiting. Slide 5: Get covered today." },
-                        { title: "Legacy Secrets", content: "What they don't tell you about building generational wealth through life insurance." },
-                        { title: "Viral Life Hacks", content: "High-energy shots of families and future planning. Emotional and impactful." },
-                        { title: "The Provider's Edge", content: "Protecting your most valuable asset: your life and your family's security." },
-                        { title: "Street Smart Life", content: "Navigating the complexities of life insurance with confidence and clarity." },
-                        { title: "The Shifting Gear", content: "Transitioning to better protection for your family's long-term goals." },
-                        { title: "Night Drive Security", content: "The peace of mind that comes with knowing your family is safe, no matter what." }
-                    ];
-            }
-        }
-        if (acc === AccountType.PB) {
-            switch (cat) {
-                case 'Carousel':
-                    return [
-                        { title: "The Protection Blueprint", content: "Slide 1: Why standard insurance is a gamble. Slide 2: The PB Shield. Slide 3: Comprehensive risk management. Slide 4: Real-world protection. Slide 5: Get shielded today." },
-                        { title: "Risk Mitigation 101", content: "Slide 1: Identifying your hidden exposures. Slide 2: The PB Audit. Slide 3: Strategic defense. Slide 4: Continuous monitoring. Slide 5: The Boss standard." },
-                        { title: "The Guardian's Strategy", content: "Slide 1: Protecting your empire from the inside out. Slide 2: Employee risk. Slide 3: Cyber defense. Slide 4: Liability layers. Slide 5: Total protection." },
-                        { title: "Asset Defense", content: "Slide 1: Your wealth is a target. Slide 2: How we shield it. Slide 3: Legal precedents. Slide 4: The PB method. Slide 5: Secure your assets." },
-                        { title: "The Cost of Exposure", content: "Slide 1: One mistake can end it all. Slide 2: The math of loss. Slide 3: The PB safety net. Slide 4: Real recovery stories. Slide 5: Don't wait for the storm." },
-                        { title: "Empire Security Audit", content: "Slide 1: 5 gaps you need to fill today. Slide 2: Contractual risk. Slide 3: Operational safety. Slide 4: Policy review. Slide 5: Schedule your audit." },
-                        { title: "The PB Manifesto", content: "Slide 1: Why we exist. Slide 2: Relentless advocacy. Slide 3: The gold standard. Slide 4: Join the protected. Slide 5: The Protection Boss." }
-                    ];
-                case 'Reel':
-                    return [
-                        { title: "The Guardian's Promise", content: "Emotional look at family security and the legacy you leave. 'We don't just sell policies; we deploy shields.' Moody lighting." },
-                        { title: "Legacy Architecture", content: "Building a future that lasts for generations to come. 'The act of protection is the highest form of leadership.' Cinematic B&W." },
-                        { title: "The Silent Shield", content: "Protection that works while you sleep, guarding your home. 'Your legacy is uninsurable, but the events that threaten it are not.' Grounded power." },
-                        { title: "Generational Wealth", content: "Insuring the next chapter of your family's story. 'We architect safety nets as strong as your dreams.' Emotional and secure." },
-                        { title: "The Heart of the Home", content: "Focus on what truly matters: the people you love. 'A signature today is a fortress tomorrow.' Moody lighting." },
-                        { title: "A Father's Legacy", content: "Securing the path for your children with deep protection. 'The Protection Boss: Relentless advocacy for the persistent.' Cinematic B&W." },
-                        { title: "The Final Signature", content: "The peace of mind that comes with a complete protection plan. 'Signed, sealed, and secured.' Grounded power." }
-                    ];
-                case 'Infographic':
-                    return [
-                        { title: "The Protection Pyramid", content: "Visualizing the layers of defense from basic liability to elite asset shielding. B&W aesthetic." },
-                        { title: "The Risk Exposure Map", content: "A chart showing common business gaps and how PB fills them. High contrast." },
-                        { title: "Standard vs. PB Protection", content: "A side-by-side comparison of coverage quality and advocacy. Clear and strategic." },
-                        { title: "The Shield Flowchart", content: "How our audit process leads to total security. PB style." },
-                        { title: "The Math of Mitigation", content: "A simple formula for calculating the ROI of proactive risk management." },
-                        { title: "The Asset Fortress", content: "How we layer policies to create an untouchable shield for your wealth." },
-                        { title: "7 Steps to Security", content: "The PB onboarding process from audit to total protection. Practical guide." }
-                    ];
-                default:
-                    return [
-                        { title: "The Guardian's Promise", content: "Emotional look at family security and the legacy you leave." },
-                        { title: "Legacy Architecture", content: "Building a future that lasts for generations to come." },
-                        { title: "The Silent Shield", content: "Protection that works while you sleep, guarding your home." },
-                        { title: "Generational Wealth", content: "Insuring the next chapter of your family's story." },
-                        { title: "The Heart of the Home", content: "Focus on what truly matters: the people you love." },
-                        { title: "A Father's Legacy", content: "Securing the path for your children with deep protection." },
-                        { title: "The Final Signature", content: "The peace of mind that comes with a complete protection plan." }
-                    ];
-            }
-        }
-        return [
-            { title: `${cat} Strategy 1`, content: `Drafting content for ${acc} ${cat}. Focus on brand identity.` },
-            { title: `${cat} Strategy 2`, content: `Drafting content for ${acc} ${cat}. Focus on engagement.` },
-            { title: `${cat} Strategy 3`, content: `Drafting content for ${acc} ${cat}. Focus on education.` },
-            { title: `${cat} Strategy 4`, content: `Drafting content for ${acc} ${cat}. Focus on values.` },
-            { title: `${cat} Strategy 5`, content: `Drafting content for ${acc} ${cat}. Focus on conversion.` },
-            { title: `${cat} Strategy 6`, content: `Drafting content for ${acc} ${cat}. Focus on community.` },
-            { title: `${cat} Strategy 7`, content: `Drafting content for ${acc} ${cat}. Focus on the 2026 outlook.` }
-        ];
+    const topics: Record<string, string[]> = {
+      "Whole Life": ["The Private Bank Blueprint", "Legacy That Never Expires", "The Fixed Premium Guarantee"],
+      "Universal Life": ["The Swiss Army Knife of Wealth", "Indexed Growth: The IUL Blueprint", "Flexible Protection for Visionaries"],
+      "Term Life": ["The High-Leverage Shield", "Income Replacement Blueprint", "The Conversion Strategy"],
+      "Mortgage Protection": ["Sanctuary Security Blueprint", "Beyond the Death Benefit", "Home Equity Protection"],
+      "Disability": ["The Income Engine Blueprint", "Own-Occupation Protection", "The 1-in-4 Reality"]
     };
 
-    cats.forEach(cat => {
-        batch = [...batch, ...generateCategoryBatch(account, cat, getAccountTitles(account, cat))];
-    });
-    return batch;
-};
+    const topic = topics[subCat][topicIndex];
+
+    const imagePrompts: Record<string, string[]> = {
+      "Whole Life": [
+        "Cinematic B&W, high-end private vault with stacks of gold bars, moody lighting, shallow depth of field, 8k resolution.",
+        "Cinematic B&W, elegant family portrait in a timeless mansion, soft lighting, emotional and strong, 8k resolution.",
+        "Cinematic B&W, close-up of a high-end fountain pen signing a document on a marble desk, dramatic lighting, 8k resolution."
+      ],
+      "Universal Life": [
+        "Cinematic B&W, high-tech command center with holographic financial data, futuristic and elite, 8k resolution.",
+        "Cinematic B&W, abstract visualization of a safety floor and rising stock charts, clean and powerful, 8k resolution.",
+        "Cinematic B&W, a visionary leader looking through a massive glass window at a modern city skyline, dramatic and flexible, 8k resolution."
+      ],
+      "Term Life": [
+        "Cinematic B&W, a powerful shield reflecting a stormy sky, protective and high-leverage, 8k resolution.",
+        "Cinematic B&W, a young family playing in a park, blurred background focusing on their happiness and security, 8k resolution.",
+        "Cinematic B&W, a set of keys and a deed on a modern desk, focusing on the moment of transition and growth, 8k resolution."
+      ],
+      "Mortgage Protection": [
+        "Cinematic B&W, close-up of a modern home facade with a strong shadow, focusing on the foundation and safety, 8k resolution.",
+        "Cinematic B&W, a hand placing a protective glass dome over a small model of a house, detailed and symbolic, 8k resolution.",
+        "Cinematic B&W, a family silhouette silhouetted in a brightly lit doorway of a home at night, warm but high-contrast, 8k resolution."
+      ],
+      "Disability": [
+        "Cinematic B&W, close-up of high-end machinery gears slowing down but not stopping, mechanical and precise, 8k resolution.",
+        "Cinematic B&W, a surgical laser beam hitting a Target, representing precision and professional care, 8k resolution.",
+        "Cinematic B&W, a businessman standing firm while a chess board in front of him shows a complex winning move, strategic and resilient, 8k resolution."
+      ]
+    };
+
+    const scripts: Record<string, string[]> = {
+      "Whole Life": [
+        "Do you know what happened if you die without life insurance? Your family's financial security is left to chance. But with the Private Bank Blueprint, we use Whole Life to build a living asset. You get guaranteed cash value growth and returns that are tax-advantaged. Plus, you can access policy loans to fund your own empire while your money continues to grow. It's about taking control of your banking and your legacy. Secure your private bank today.",
+        "Do you know what happened if you die without life insurance? Your legacy evaporates the moment you're gone. Our Legacy Blueprint ensures your protection never expires. Unlike term, Whole Life stays with you forever, with a death benefit that is guaranteed. It's the ultimate estate planning tool, providing a tax-free windfall for your heirs and creditor protection for your assets. Build a legacy that lasts forever with The Insurance Boss.",
+        "Do you know what happened if you die without life insurance? Your family faces rising costs with zero backup. The Fixed Premium Blueprint locks in your security. Your premiums never increase, no matter your age or health changes. It's a forced savings discipline that builds wealth every single day. You're not just buying a policy; you're buying a guarantee that your family will always be protected at a price you can afford today."
+      ],
+      "Universal Life": [
+        "Do you know what happened if you die without life insurance? The industry's rigid rules can leave your family exposed. Universal Life is the Swiss Army Knife of Wealth. It separates the cost of insurance from interest crediting, giving you ultimate flexibility. You can adjust your premium payments and your death benefit as your life and empire evolve. It's dynamic protection for a dynamic life. Get the flexible blueprint your family deserves.",
+        "Do you know what happened if you die without life insurance? You miss out on the power of indexed growth. Our IUL Blueprint offers permanent protection with market-linked upside and a 0% floor. You participate in the gains of the market without the risk of losing your principal. It's tax-advantaged accumulation that builds a massive cash value for your future. Protect your family and grow your wealth simultaneously.",
+        "Do you know what happened if you die without life insurance? Your family is stuck with a plan that doesn't fit their reality. The Visionary Blueprint uses Universal Life to provide complete transparency and a no-lapse guarantee. Whether you're planning for your estate or your business, this plan pivots with you. It's permanent protection with a dynamic design that ensures you're always in control of your financial destiny."
+      ],
+      "Term Life": [
+        "Do you know what happened if you die without life insurance? Your family loses their primary income source instantly. The High-Leverage Shield is the most affordable way to protect your future. It's pure, simple protection that gives you the highest coverage for the lowest monthly cost. Secure a million-dollar shield for the price of a dinner out. It's the essential first step for every Boss building an empire.",
+        "Do you know what happened if you die without life insurance? Your family faces major expenses alone. Our Income Replacement Blueprint is designed to cover the 10, 20, or 30 years when your family needs you most. It ensures your mortgage is paid, your children's education is secured, and your spouse never has to worry about the bills. It's budget-friendly coverage you can count on when it matters most.",
+        "Do you know what happened if you die without life insurance? You lose the chance to build permanent wealth. The Conversion Strategy starts with affordable Term Life but gives you the right to convert to permanent insurance later without a medical exam. It's the smart way to lock in your insurability today while you're young and healthy, giving you the flexibility to upgrade your blueprint as your income grows."
+      ],
+      "Mortgage Protection": [
+        "Do you know what happened if you die without life insurance? Your sanctuary becomes a liability. The Sanctuary Security Blueprint is a targeted shield that pays off your mortgage balance directly. It ensures that if the unthinkable happens, the roof stays over their heads and the bank stays out of your driveway. Don't leave your home to luck; secure the sanctuary for the people you love.",
+        "Do you know what happened if you die without life insurance? It's a tragedy, but what if you survive a critical illness? Our Mortgage Protection goes beyond the death benefit. It includes riders for disability, job loss, and chronic illness. If you can't work, the policy can cover your mortgage payments for you. It's comprehensive protection for your most important asset and your family's peace of mind.",
+        "Do you know what happened if you die without life insurance? Your family loses the home equity you've worked so hard to build. The Home Equity Blueprint protects your investment. With a simple approval process and no lender involvement, we ensure that your family keeps the home and the equity. It's the most effective way to keep your family in the home they love, no matter what life throws your way."
+      ],
+      "Disability": [
+        "Do you know what happened if you die without life insurance? It's a tragedy. But what happens if you survive an injury and can't work? The Income Engine Blueprint protects your ability to earn. Your income is the fuel for your entire empire. If the engine stops, the lifestyle stops. Disability insurance replaces your paycheck so you can keep paying bills and building your dream. Protect the engine today.",
+        "Do you know what happened if you die without life insurance? You're gone, but if you're disabled, you're still here with even more expenses. Our Own-Occupation Protection is the professional's shield. It ensures you're paid if you can't perform your specific job, even if you can work in another field. It's the highest standard of protection for high-income earners who refuse to settle for anything less than the best.",
+        "Do you know what happened if you die without life insurance? It's a 1-in-1000 risk. But the risk of disability before age 65 is 1-in-4. The Reality Blueprint exposes the truth about income protection. Our benefits are tax-free and the coverage is portable, meaning it stays with you even if you change employers. Don't let an accident derail your life. Get the portable safety net that keeps the cash flowing."
+      ]
+    };
+
+    return {
+      id: `ib-special-${i}`,
+      day: 100 + i,
+      date: getFutureDate(100 + i),
+      week: 1,
+      weekTheme: WeekTheme.WEEK1,
+      account: ib,
+      category: 'Reel' as const,
+      title: topic,
+      content: scripts[subCat][topicIndex] || `Do you know what happened if you die without life insurance? Deep dive into ${subCat} insurance with a whistleblower perspective.`,
+      backgroundImagePrompt: imagePrompts[subCat][topicIndex],
+      copy: `Do you know what happened if you die without life insurance? We're exposing the truth about ${subCat} with our ${topic}. #InsuranceBoss #LifeInsurance #WealthProtection`,
+      hashtags: "#InsuranceBoss #LifeInsurance #Legacy #Wealth #Whistleblower",
+      description: `Special high-impact reel focusing on: ${topic}.`
+    };
+  })
+];
+
+const IB_SPECIAL_CAROUSELS: PostTask[] = [
+  ...Array.from({ length: 15 }).map((_, i) => {
+    const subCats = ["Whole Life", "Universal Life", "Term Life", "Mortgage Protection", "Disability"];
+    const subCat = subCats[i % subCats.length];
+    const topicIndex = Math.floor(i / subCats.length); // 0, 1, or 2
+
+    const topics: Record<string, string[]> = {
+      "Whole Life": ["The Private Bank Blueprint", "Legacy That Never Expires", "The Fixed Premium Guarantee"],
+      "Universal Life": ["The Swiss Army Knife of Wealth", "Indexed Growth: The IUL Blueprint", "Flexible Protection for Visionaries"],
+      "Term Life": ["The High-Leverage Shield", "Income Replacement Blueprint", "The Conversion Strategy"],
+      "Mortgage Protection": ["Sanctuary Security Blueprint", "Beyond the Death Benefit", "Home Equity Protection"],
+      "Disability": ["The Income Engine Blueprint", "Own-Occupation Protection", "The 1-in-4 Reality"]
+    };
+
+    const topic = topics[subCat][topicIndex];
+    
+    const carouselContent: Record<string, string[]> = {
+      "Whole Life": [
+        "Discover the Private Bank Blueprint: How to use Whole Life to build a living asset with guaranteed cash value and tax-advantaged growth. Learn about policy loans and taking control of your banking.",
+        "The Legacy Blueprint: Why permanent protection is the ultimate estate planning tool. Ensure your death benefit is guaranteed and provide a tax-free windfall for your heirs.",
+        "The Fixed Premium Guarantee: Lock in your family's security with premiums that never increase. Explore the forced savings discipline of Whole Life and build wealth every day."
+      ],
+      "Universal Life": [
+        "The Swiss Army Knife of Wealth: Explore the dynamic design of Universal Life. Learn how to adjust premiums and death benefits as your life and empire evolve.",
+        "Indexed Growth Blueprint: How IUL offers market-linked upside with a 0% floor. Build massive cash value without the risk of market losses.",
+        "The Visionary Blueprint: Transparency and flexibility for your estate or business. See how Universal Life pivots with your financial destiny."
+      ],
+      "Term Life": [
+        "The High-Leverage Shield: Maximum protection for minimum cost. Learn why Term Life is the essential first step for every Boss building an empire.",
+        "Income Replacement Blueprint: Protecting your family for 10, 20, or 30 years. Ensure the mortgage, education, and lifestyle are always covered.",
+        "The Conversion Strategy: Start with affordable term and lock in your insurability. Learn how to upgrade to permanent protection later without a medical exam."
+      ],
+      "Mortgage Protection": [
+        "Sanctuary Security Blueprint: A targeted shield to pay off your mortgage balance. Keep the bank out of your driveway and the roof over your family's head.",
+        "Beyond the Death Benefit: Explore living riders for disability, job loss, and critical illness. See how your policy can pay your mortgage if you can't work.",
+        "Home Equity Protection: Simple approval and no lender involvement. Protect your investment and ensure your family keeps the home they love."
+      ],
+      "Disability": [
+        "The Income Engine Blueprint: Why your ability to earn is your greatest asset. Learn how disability insurance replaces your paycheck and keeps your dream alive.",
+        "Own-Occupation Protection: The professional's shield. Ensure you're paid if you can't perform your specific job, regardless of other work options.",
+        "The 1-in-4 Reality: Exposing the truth about disability risk. Discover portable, tax-free benefits that stay with you throughout your career."
+      ]
+    };
+
+    return {
+      id: `ib-special-carousel-${i}`,
+      day: 120 + i,
+      date: getFutureDate(120 + i),
+      week: 1,
+      weekTheme: WeekTheme.WEEK1,
+      account: ib,
+      category: 'Carousel' as const,
+      title: topic,
+      content: carouselContent[subCat][topicIndex] || `A strategic carousel showcasing our ${subCat} offerings.`,
+      copy: `We're showcasing the ${topic} at The Insurance Boss. Here is the blueprint for your family's financial security. #InsuranceBoss #WealthStrategy #Legacy`,
+      hashtags: "#InsuranceBoss #LifeInsurance #WealthStrategy #BusinessOwner #FinancialSecurity",
+      description: `Informative carousel focusing on: ${topic}.`
+    };
+  })
+];
 
 export const PLAYBOOK_DATA: PostTask[] = [
   ...IB_POSTS,
   ...QC_POSTS,
-  ...generatePlaceholders(lib),
-  ...generatePlaceholders(pb)
+  ...LIB_POSTS,
+  ...IB_SPECIAL_REELS,
+  ...IB_SPECIAL_CAROUSELS
 ];
 
-// Helper for generating Batch of Quotes
 const generateQuoteBatch = (account: AccountType, category: QuoteCategory, texts: string[]): QuoteItem[] => {
   return texts.map(text => ({
     id: generateId(),
@@ -359,267 +394,247 @@ const generateQuoteBatch = (account: AccountType, category: QuoteCategory, texts
 };
 
 export const QUOTES_DATA: QuoteItem[] = [
-    // --- THE INSURANCE BOSS (IB) ---
-    ...generateQuoteBatch(ib, 'Residual Income', [
-      "Residuals are the scoreboard of trust. If yours aren't growing, you aren't protecting.",
-      "The industry wants you to trade time for money. The Boss trades protection for freedom.",
-      "A book of business is a living organism. Feed it with transparency, and it feeds your legacy.",
-      "Stop selling policies and start building a fortress of recurring revenue.",
-      "The most expensive commission is the one you lose because you stopped caring after the sale.",
-      "Residual income is the reward for being the only one who didn't lie to the client.",
-      "Your bank account should be a reflection of the disasters you've prevented.",
-      "In 2026, the only safe income is the one built on unshakeable client advocacy.",
-      "Don't just collect a check; collect a reputation that pays dividends forever.",
-      "The whistleblower doesn't hunt for leads; they hunt for the truth that keeps clients for life.",
-      "Leverage is having a book that works harder than you do.",
-      "True wealth in insurance is measured by the renewals you didn't have to beg for.",
-      "The 'set it and forget it' model is a death sentence for your residuals.",
-      "Protect the client's bottom line, and they'll protect yours through every renewal."
+    ...generateQuoteBatch(ib, 'Life Insurance', [
+      "The industry wants you to think life insurance is an expense. The Boss knows it's the ultimate family shield.",
+      "Don't let your family's future be a line item in a carrier's profit margin.",
+      "The elite don't 'buy' life insurance; they architect family fortresses.",
+      "Your family's lifestyle shouldn't be a variable in a corporate algorithm.",
+      "The whistleblower's truth: Most life policies are built for the carrier, not your kids.",
+      "A Boss-level life policy is the only thing standing between your family and a financial cliff.",
+      "Stop funding the industry's towers and start building your family's empire.",
+      "The ultimate act of authority is ensuring your family never has to ask for permission to survive.",
+      "The industry hides the real math of family protection. We expose it.",
+      "Your children's future is the only ROI that actually matters.",
+      "Life insurance isn't about death; it's about the Boss's promise to the living.",
+      "Don't leave your family's legacy to a 'standard' policy trap.",
+      "The Boss uses life insurance to buy certainty in an uncertain world.",
+      "Your family deserves a strategy, not just a certificate.",
+      "The industry profits from your delay. Your family pays the price.",
+      "A true Boss protects the pride first. Life insurance is the weapon of choice.",
+      "Exposing the truth: Your family is the most undervalued asset in the industry's eyes. Change that.",
+      "The elite family office starts with a bulletproof life insurance strategy.",
+      "Don't let a tragedy be the first time your family realizes they were under-protected.",
+      "The Boss's final whistle: Your family's security is non-negotiable."
     ]),
     ...generateQuoteBatch(ib, 'Commercial Risk', [
-      "Your GL policy is a participation trophy. It doesn't mean you're actually safe.",
-      "Risk isn't something you avoid; it's something you engineer out of your business.",
-      "The biggest risk in your company is the agent who told you 'you're fully covered'.",
-      "A certificate of insurance is just a piece of paper until the lawsuit hits the desk.",
-      "If your risk transfer strategy fits on a napkin, your business is a target.",
-      "We don't look for the obvious fires; we look for the slow-burn liability traps.",
-      "Commercial insurance is a weapon. In the wrong hands, it backfires on the owner.",
-      "The E-Mod is a report card for your leadership. What grade are you getting?",
-      "Standard markets are for standard businesses. Empires need custom-built shields.",
-      "Cyber liability is the silent assassin of the mid-market. Are your doors locked?",
-      "Risk management is the only insurance that doesn't have a deductible.",
-      "Don't let a $50k oversight erase a $50M legacy.",
-      "The Boss Audit: Because 'hope' is not a viable risk management strategy.",
-      "We find the gaps that the 'nice guy' agent was too afraid to mention."
+      "Risk is a variable to be managed, not a monster to be feared.",
+      "Your agent's ignorance is your company's greatest liability.",
+      "A 'standard' policy is a standard way to lose your business in a lawsuit.",
+      "The elite don't buy insurance; they architect certainty through contracts.",
+      "Liability is the silent thief of corporate equity.",
+      "If you can't explain your exclusions, you aren't actually covered.",
+      "The Boss finds the gaps before the lawyers find the courthouse.",
+      "Workers Comp is a controllable expense, not an inevitable tax.",
+      "A certificate of insurance is a placebo; a contract is the cure.",
+      "Nuclear verdicts are built on the foundation of lazy risk management.",
+      "Risk engineering is the difference between a setback and a shutdown.",
+      "The industry profits from your fear; the Boss profits from your precision.",
+      "Don't let a $50M lawsuit be the first time you read your policy.",
+      "Transparency in risk is the ultimate competitive advantage.",
+      "Your broker works for the carrier; the Boss works for the result.",
+      "Asset protection starts with the fine print, not the premium.",
+      "The biggest risk is the one you didn't think was worth mentioning.",
+      "Insurance is a tool, but strategy is the weapon.",
+      "Audit your risk today, or the world will audit your legacy tomorrow.",
+      "In the game of high-stakes business, protection is the only winning move."
     ]),
-    ...generateQuoteBatch(ib, 'Lender FAQ', [
-      "The bank doesn't care about your business; they care about their collateral. We protect both.",
-      "A binder is a promise. A Boss binder is a guarantee that the deal closes on time.",
-      "Lenders want 'Full Replacement Cost' because they know the math of 2026 inflation.",
-      "Don't let a $1,500 insurance dispute stall a $15M construction loan.",
-      "We speak the language of underwriters so you don't have to.",
-      "Escrow is a tool, not a trap. Use it to smooth your empire's cash flow.",
-      "The 'Additional Insured' clause is where most deals go to die. We keep them alive.",
-      "Lender requirements aren't suggestions; they're the rules of the game. Play to win.",
-      "Force-placed insurance is the bank's way of saying they don't trust your agent.",
-      "We deliver the 'Evidence of Insurance' before the ink on the loan docs is dry.",
-      "SBA 7(a) or 504? We know the specific insurance hurdles for every government loan.",
-      "The Whistleblower Audit satisfies the most demanding compliance officers in the country.",
-      "Your insurance should be the easiest part of your closing, not the bottleneck.",
-      "When the lender sees 'The Insurance Boss', they know the risk is vetted."
-    ]),
-    ...generateQuoteBatch(ib, 'Business', [
-      "Scaling a business without a shield is just inviting a bigger disaster.",
-      "The CEO's job is vision. Our job is making sure the vision survives the reality of risk.",
-      "Insurance is the only expense that can literally save your entire company in a day.",
-      "A board of directors without a D&O policy is a group of people with targets on their backs.",
-      "Your employees are your greatest asset—and your greatest liability. Insure accordingly.",
-      "Business continuity isn't a plan; it's a funded reality.",
-      "The elite don't buy insurance; they buy certainty in an uncertain economy.",
-      "If you aren't auditing your agent every 24 months, you're leaving your vault unlocked.",
-      "Transparency is the only currency that matters in the 2026 insurance market.",
-      "We don't sell policies; we architect corporate safety nets for the persistent.",
-      "Your reputation is uninsurable, but the events that destroy it are not.",
-      "The Boss Mindset: Protect the downside so the upside can take care of itself.",
-      "Efficiency is doing things right. Effectiveness is doing the right things—like insuring your legacy.",
-      "The Insurance Boss: The silent partner in every protected empire."
-    ]),
-    ...generateQuoteBatch(ib, 'Insurance Agents', [
-      "Stop being a 'quote monkey' and start being a Whistleblower for your clients.",
-      "The industry is broken. We're the ones fixing it, one audit at a time.",
-      "If you're still selling on price, you're already obsolete in 2026.",
-      "The best agents don't have 'customers'; they have a protected inner circle.",
-      "Transparency is the ultimate competitive advantage in a world of hidden commissions.",
-      "Your value isn't in the policy; it's in the advocacy you provide when the world burns.",
-      "The Whistleblower Protocol: A higher standard for the modern insurance professional.",
-      "Don't just renew the book; revolutionize the way your clients see risk.",
-      "The elite agents focus on the E-Mod, not just the premium.",
-      "If you can't explain the 'why' behind the coverage, you shouldn't be holding the license.",
-      "We don't compete with other agents; we compete with the status quo of mediocrity.",
-      "The Insurance Boss Agent: Authoritative, transparent, and relentlessly protective.",
-      "Your license is a responsibility to expose the traps the big agencies set.",
-      "Join the movement of agents who actually put the client's empire first."
-    ]),
-
-    // --- QUICK COVERAGE (QC) ---
     ...generateQuoteBatch(qc, 'Savings', [
-      "The 'Loyalty Tax' is real. If you haven't shopped in 3 years, you're overpaying by $600.",
-      "Speed is the ultimate luxury. We get you a better rate in the time it takes to brew coffee.",
-      "In 2026, bundling isn't just a discount; it's a survival strategy against inflation.",
-      "Your phone is your agent. Our tech finds the savings; our humans provide the heart.",
-      "Stop waiting for a callback from a 1-800 number. Get covered in 300 seconds.",
-      "The best neighbor is the one who helps you keep more of your hard-earned money.",
-      "Efficiency is how we keep our rates low and our clients happy. Simple as that.",
-      "Don't just renew your policy; review your possibilities with Quick Coverage.",
-      "The algorithm hunts for discounts; we deliver the peace of mind. The perfect pair.",
-      "A fatter wallet starts with a faster quote. Let's get to work.",
-      "Auto + Home + Life = The Triple Threat to high premiums. Bundle and win.",
-      "Insurance shouldn't be a chore. We make saving money feel like a victory.",
-      "We don't just beat rates; we beat the red tape that slows your life down.",
-      "Quick Coverage: Because your time is worth more than a hold music loop."
+      "Saving $1,200 on insurance is like getting a free vacation every year.",
+      "Why pay for a big name when you can pay for a big life?",
+      "The 'Loyalty Tax' is the price you pay for not checking your rates.",
+      "Quick Coverage means more money for the things that actually matter.",
+      "We're your neighbors, and neighbors don't let neighbors overpay.",
+      "Get a better rate in less time than it takes to order a pizza.",
+      "Insurance shouldn't be a luxury; it should be a smart decision.",
+      "Bundle your home and auto to unlock the savings the big guys hide.",
+      "Our tech finds the discounts; our heart keeps the promise.",
+      "Stop funding the carrier's Super Bowl ads and start funding your dreams.",
+      "A dollar saved on your premium is a dollar earned for your family.",
+      "Efficiency is how we keep our prices low and your spirits high.",
+      "The neighborhood secret to lower rates is finally out.",
+      "Don't wait for a renewal notice to start saving money.",
+      "Smart insurance for smart people who value their time and money.",
+      "We cut the red tape so you can keep the green in your wallet.",
+      "High-speed savings for a high-speed world.",
+      "Your budget's best friend is a Quick Coverage policy.",
+      "Better coverage, lower rates, zero headaches.",
+      "Instantly compare, instantly save, instantly breathe easier."
     ]),
     ...generateQuoteBatch(qc, 'Family', [
-      "Protecting your nest shouldn't cost your future. We find the balance.",
-      "A house is made of bricks; a home is made of memories. We insure both.",
-      "From the first car to the forever home, QC grows with your family's story.",
-      "Family peace of mind is the highest ROI you'll ever see on a monthly bill.",
-      "Building a legacy takes a lifetime. Protecting it takes a five-minute conversation.",
-      "We treat your family like our own because we're neighbors first, agents second.",
-      "Security for them, savings for you. That's the Quick Coverage promise.",
-      "We don't just insure property; we insure the people who make it a home.",
-      "Smart insurance is the best inheritance you can provide for your children.",
-      "Every milestone deserves a safety net that actually catches you. No gaps.",
-      "Sleep better knowing the people you love are shielded by the best in the business.",
-      "Bundle their future into certainty with a family-first protection plan.",
-      "The 'Guardian Mindset' starts with the very first policy you sign with us.",
-      "Family first. Savings second. With QC, you never have to choose between them."
+      "We protect the roof over your head and the hearts inside your home.",
+      "Insurance is the invisible hug that keeps your family safe.",
+      "From the first tricycle to the first car, we're with you every mile.",
+      "A safe home is the foundation of a happy life.",
+      "We don't just insure houses; we protect the places where memories live.",
+      "Family first isn't just a slogan; it's our underwriting philosophy.",
+      "Your family's peace of mind is our community's greatest asset.",
+      "The neighborhood way: Real people looking out for real families.",
+      "Protecting your nest is the ultimate act of neighborly love.",
+      "We're here for the rainy days, so you can enjoy the sunny ones.",
+      "A promise made to a neighbor is a promise we always keep.",
+      "Your kids deserve a future that's already been protected.",
+      "Quick Coverage: Because your family's safety shouldn't wait.",
+      "The heart of our business is the families in our neighborhood.",
+      "Simple coverage for the most important people in your world.",
+      "We're the safety net that lets your family dream bigger.",
+      "Building a safe community, one family at a time.",
+      "Your home is your sanctuary; let's keep it that way together.",
+      "Neighborly care meets professional protection.",
+      "The QC family shield: Strong, simple, and always there."
     ]),
-    ...generateQuoteBatch(qc, 'Real Estate', [
-      "Closing on a dream home? Don't let a slow binder turn it into a nightmare.",
-      "Home equity is your wealth. Our insurance is the fence that keeps it safe.",
-      "First-time buyer? We speak human, not insurance-jargon. Let's get you home.",
-      "Renters insurance: The $15/mo shield that protects everything you've built.",
-      "Investment properties need specialized eyes. We see the risks you might miss.",
-      "A new roof is a lower rate. We make sure the math works in your favor.",
-      "Condo life requires more than a master policy. We fill the gaps for you.",
-      "Airbnb or Short-Term Rental? Standard policies are a trap. We have the fix.",
-      "We handle the binder speed-run so you can focus on the moving truck.",
-      "A house is just a building until it's protected by a Quick Coverage policy.",
-      "Don't let your closing date slip because of a missing 'Evidence of Insurance'.",
-      "Refinancing is the perfect time to audit your rate. Most families save $400.",
-      "From the foundation to the shingles, we've got every square inch covered.",
-      "QC: The Real Estate Agent's favorite partner for a reason. We're fast."
-    ]),
-    ...generateQuoteBatch(qc, 'Savings', [
-      "One bill, one agent, one massive discount. That's the power of the bundle.",
-      "Bundling isn't just a feature; it's a high-impact financial strategy for 2026.",
-      "The sum of the parts is always cheaper when you bring them under one roof.",
-      "Auto + Home = The $800 high-five. Who couldn't use an extra $800?",
-      "Simplify your life and fortify your coverage with a QC Multi-Policy plan.",
-      "Unbundled insurance is unoptimized money. Let's fix your budget today.",
-      "The multi-policy discount is the ultimate hack for the modern homeowner.",
-      "Protect the driveway and the doorstep together for the maximum savings.",
-      "Cohesion in your coverage leads to clarity when it's time to make a claim.",
-      "Don't divide your loyalty between three companies; multiply your savings with one.",
-      "One login, total protection, and significantly less money out of your pocket.",
-      "QC Bundles: The gold standard for families who value both time and money.",
-      "Stop the piecemeal protection. It's time to bundle up and save big.",
-      "Efficiency meets economy in every Quick Coverage bundle we architect."
-    ]),
-    ...generateQuoteBatch(qc, 'Claims/Fraud', [
-      "The best policy is the one that actually pays when the world turns upside down.",
-      "Claims are stressful; we are your flashlight in the dark. We'll guide you.",
-      "Don't just file a claim; follow through with a neighbor who has your back.",
-      "A claim is the 'moment of truth' for an insurance company. We pass the test.",
-      "Document first, despair never. We're here to handle the heavy lifting for you.",
-      "From a minor fender bender to a major flood, we're with you every step.",
-      "The adjuster works for the carrier; we work for you. That's the QC difference.",
-      "Get back to normal faster with our streamlined claims preparation process.",
-      "Your agent should be your first call, not a 1-800 number in another state.",
-      "Claim denied? Let's check the fine print together. We hunt for the 'Yes'.",
-      "Recovery is a team sport. Consider Quick Coverage your most valuable player.",
-      "Integrity in the claims process is the foundation of the QC neighborhood.",
-      "Don't let a loss become a tragedy. File smart, file fast, and file with us.",
-      "QC: Turning claims into solutions so you can get back to what matters."
-    ]),
-    ...generateQuoteBatch(qc, 'Meme', [
-      "When you see your unbundled insurance bill: 👁️👄👁️",
-      "Me doing the math on how much I saved by switching to QC: 📈📉",
-      "When the 1-800 agent puts you on hold for the 5th time... 💀",
-      "My roof turning 15 years old: 'My time has come.' 🏚️",
-      "That 'I just saved $700' walk to the mailbox. 🚶‍♂️💨",
-      "When your neighbor gets a trampoline and you immediately check your umbrella policy. ☂️",
-      "Me sneaking another Amazon package past my spouse... completely uninsured. 📦",
-      "Trying to explain a deductible to my teenager like 🗣️🧱",
-      "When you realize renters insurance is cheaper than your daily latte habit. ☕",
-      "My wallet when I tell it we're switching to Quick Coverage: 🙌💸",
-      "The 'Check Engine' light: the ultimate test of my emotional stability. 🚙🚨",
-      "Me looking at my old policy's 'loyalty penalty': We are never ever getting back together. 🙅‍♂️",
-      "When the claims process is actually easy and you don't know what to complain about anymore. 🤔",
-      "Installing a $25 leak detector to save $25,000. #Stonks 📈",
-      "My dog judging my parallel parking skills from the passenger seat. 🐕🚗",
-      "When you get that 'Proof of Insurance' PDF 2 minutes before the dealership closes. 🦸‍♂️",
-      "Adulting is being genuinely excited about a new fire extinguisher discount. 🧯",
-      "Me explaining to my wife why the new smart thermostat is a 'high-yield investment'. 🧠",
-      "That feeling when you actually understand your declaration page. 🤯",
-      "When you find out the 'Good Student Discount' pays for their entire gas budget. ⛽",
-      "Me waiting for the 1-800 agent to 'check with their supervisor' for the 3rd time. 🤡",
-      "The face you make when the bundle discount hits your bank account. 🤑"
-    ]),
-
-    // --- THE LIFE INSURANCE BOSS (LIB) ---
     ...generateQuoteBatch(lib, 'Life', [
-      "Life insurance is the only contract that guarantees your love lives forever.",
-      "The best time to buy life insurance was yesterday. The second best time is today.",
-      "You don't buy life insurance because you're going to die; you buy it because they're going to live.",
-      "A policy is a promise that your family's story doesn't end when yours does.",
-      "Term life is the foundation; whole life is the fortress. Build both.",
-      "Don't leave their future to chance. Leave it to a Life Insurance Boss policy.",
-      "The cost of life insurance is a fraction of the cost of not having it.",
-      "Your income is their lifestyle. Insure it like the asset it is.",
-      "Life insurance: The ultimate gift of certainty in an uncertain world.",
-      "Protect the people who make life worth living. Start your legacy today."
+      "The Life Insurance Boss doesn't just sell policies; we architect family empires.",
+      "Your legacy isn't a conversation for 'one day'—it's a directive for today.",
+      "The ultimate act of leadership is ensuring your absence never equals your family's failure.",
+      "We convert your life's effort into a permanent fortress of financial certainty.",
+      "Stop letting the industry dictate your value. The Boss defines the legacy.",
+      "A signed policy is the code of honor for every true head of household.",
+      "The Life Q standard: Protection that grows as fast as your dreams do.",
+      "We don't settle for 'standard' coverage. We demand elite security for elite families.",
+      "Your family's future is the only IPO that truly matters.",
+      "The Boss uses life insurance to buy back the time your family deserves.",
+      "Don't just be a provider; be a protector whose reach extends through generations.",
+      "A Life Insurance Boss policy is the whistle that signals the end of financial worry.",
+      "We build the shield so you can build the legacy.",
+      "Strategic love looks like a fully funded, bulletproof life insurance plan.",
+      "The industry hides the power of life insurance; the Life Q exposes the wealth.",
+      "Your name should be the anchor of your family's financial freedom.",
+      "The Boss knows that the best time to protect was yesterday; the second best time is now.",
+      "We turn your current income into your family's future independence.",
+      "A legacy is built in the quiet moments of planning, not the loud moments of crisis.",
+      "Life Insurance Boss: Where authority meets absolute family security."
     ]),
-    ...generateQuoteBatch(lib, 'Life Insurance Agents', [
-      "Stop selling death benefits and start selling family continuity.",
-      "The best life agents are architects of generational wealth.",
-      "If you aren't talking about life insurance, you aren't truly protecting the client.",
-      "Life insurance is the most emotional product in the world. Treat it with respect.",
-      "Your value as an agent is measured by the claims you pay, not the premiums you collect.",
-      "The Life Insurance Boss Agent: Compassionate, strategic, and relentlessly protective.",
-      "Master the math of the 'Human Life Value' and you'll never struggle to sell again.",
-      "We don't just close deals; we open doors to a secure future for families.",
-      "Transparency in life insurance is the only way to build a legacy as an agent.",
-      "Join the movement of agents who put the family's mission above the commission."
+    ...generateQuoteBatch(ib, 'Whole Life Insurance', [
+      "Whole life isn't just a policy; it's a private bank for your legacy.",
+      "The Boss doesn't rent protection; the Boss owns it for life.",
+      "Cash value is the ultimate whistleblower against market volatility.",
+      "Whole life insurance: Where certainty meets compounding growth.",
+      "Stop paying for temporary fixes. Build a permanent fortress.",
+      "The industry wants you to buy term and invest the rest. The Boss does both with one signature.",
+      "Guaranteed growth is the scoreboard of a strategic provider.",
+      "Your policy should be an asset, not just an expense.",
+      "Whole life is the foundation of the elite family office.",
+      "Dividends are the residuals of a well-structured life policy.",
+      "Don't leave your family's future to the whims of the stock market.",
+      "The Boss knows that liquidity is king in times of crisis.",
+      "Whole life insurance is the only asset that guarantees a result.",
+      "Build a legacy that grows every single day, guaranteed.",
+      "Your cash value is your own private line of credit.",
+      "The ultimate act of love is a policy that never expires.",
+      "Whole life is the anchor of a multi-generational wealth strategy.",
+      "Stop chasing returns and start building a guaranteed future.",
+      "The Boss uses whole life to fund the next generation's dreams.",
+      "Permanent protection for a permanent legacy."
     ]),
-
-    // --- THE PROTECTION BOSS (PB) ---
-    ...generateQuoteBatch(pb, 'Family', [
-      "Legacy isn't what you leave for them; it's what you build around them.",
-      "The ultimate act of love is a signature that protects them when you aren't there.",
-      "We don't just insure lives; we architect the future of your lineage.",
-      "Your children's children deserve a world where their inheritance is unshakeable.",
-      "A father's legacy is only as strong as the shield he places over his home.",
-      "Protecting the nest is a full-time commitment to the people who matter most.",
-      "The Guardian mindset: Seeing the storm before it reaches your doorstep.",
-      "Family security is the only investment with a guaranteed 100% emotional ROI.",
-      "We shield the hearts of 2026 by securing the assets of today.",
-      "Don't let a single unforeseen event rewrite your family's history.",
-      "The Protection Boss: Because 'good enough' is never enough for your family.",
-      "A legacy of love is written in the ink of a comprehensive protection plan.",
-      "Your name is an asset. We make sure it stays protected for generations.",
-      "Signature of strength. Legacy of love. The PB way."
+    ...generateQuoteBatch(ib, 'Universal Life Insurance', [
+      "Flexibility is the weapon of the strategic provider.",
+      "Universal life: The adjustable shield for an evolving empire.",
+      "The Boss adapts to the market; your policy should too.",
+      "Cash value growth with the flexibility to pivot when needed.",
+      "Universal life insurance is the Swiss Army knife of wealth protection.",
+      "Don't get locked into a rigid plan. Stay agile, stay protected.",
+      "The industry fears the agent who knows how to structure a UL policy.",
+      "Your premiums should work as hard as you do.",
+      "Universal life: High-end protection for the modern visionary.",
+      "Adjust your coverage, not your lifestyle.",
+      "The Boss knows that life changes. Your insurance should keep up.",
+      "Universal life is the bridge between protection and opportunity.",
+      "Maximize your cash value potential with a Boss-level UL strategy.",
+      "The ultimate tool for the business owner's personal balance sheet.",
+      "Stay in control of your legacy with universal flexibility.",
+      "Universal life insurance: Designed for those who demand more.",
+      "Your policy, your terms, your legacy.",
+      "The Boss uses UL to bridge the gap between risk and reward.",
+      "Agile protection for a fast-paced world.",
+      "Universal life is the elite choice for the flexible provider."
     ]),
-    ...generateQuoteBatch(pb, 'Wealth', [
-      "True wealth is the ability to say 'no' to risk and 'yes' to continuity.",
-      "Your portfolio needs a bodyguard that never sleeps. That's our mission.",
-      "High net worth requires high-level shielding. Standard policies need not apply.",
-      "Assets grow through effort but survive through strategic insulation.",
-      "Financial freedom is a myth without a fortress of risk management.",
-      "We protect the engine of your success so you can focus on the next horizon.",
-      "Estate taxes and lawsuits shouldn't be the ones to inherit your hard work.",
-      "Cash value is the silent partner in your journey toward generational wealth.",
-      "The wealthy don't just accumulate; they fortify their positions relentlessly.",
-      "Capital preservation is the ultimate victory in an uncertain 2026 economy.",
-      "Your wealth architecture should be as sophisticated as your investment strategy.",
-      "Leave a fortune that lasts, not a tax bill that destroys.",
-      "The Protection Boss: Defensive excellence for the world's most aggressive builders.",
-      "Shielding your success is our only business."
+    ...generateQuoteBatch(ib, 'Term Life Insurance', [
+      "Term life is the high-leverage shield for the building years.",
+      "Protect the most valuable years of your life for the price of a dinner out.",
+      "The Boss knows that leverage is the key to massive protection.",
+      "Term life insurance: Maximum coverage, minimum cost, zero excuses.",
+      "Don't leave your family's most vulnerable years to chance.",
+      "The industry wants to overcomplicate it. The Boss keeps it simple and strong.",
+      "Term life is the foundation of every young empire.",
+      "High-limit protection for the provider on the rise.",
+      "Your family's standard of living shouldn't be a gamble.",
+      "Term life insurance is the ultimate peace of mind for the busy Boss.",
+      "Protect your income while you build your wealth.",
+      "The Boss uses term to cover the big risks while the assets grow.",
+      "Don't wait until you're 'rich' to be protected. Start today with term.",
+      "Term life: The strategic choice for the growing family.",
+      "Maximum ROI on your family's security.",
+      "The industry hides the simplicity of term. We expose the value.",
+      "Your kids' future is worth more than a monthly subscription.",
+      "Term life insurance: The essential tool for the modern provider.",
+      "Big protection for the big dreams of your family.",
+      "The Boss starts with term and builds to a legacy."
     ]),
-    ...generateQuoteBatch(pb, 'Protection', [
-      "The Shield of 2026: Modern protection for a modern world of risk.",
-      "Protection is a verb. It's the active defense of everything you've built.",
-      "A signature today is a fortress tomorrow. Don't wait for the storm.",
-      "We don't just sell policies; we deploy shields over empires.",
-      "The act of protection is the highest form of leadership for any provider.",
-      "Your assets are a target. Our job is to make them untouchable.",
-      "Comprehensive protection means leaving no stone unturned and no gap unfilled.",
-      "The Protection Boss: Relentless advocacy for the persistent and the protected.",
-      "In a world of uncertainty, our shield is the only constant you can count on.",
-      "We architect safety nets that are as strong as the dreams they protect.",
-      "The 2026 Risk Outlook: Why standard protection is the fastest way to lose it all.",
-      "Signed, sealed, and secured. That's the peace of mind we deliver daily.",
-      "Your legacy is uninsurable, but the events that threaten it are not.",
-      "PB Protection: The gold standard for the elite guardian."
+    ...generateQuoteBatch(ib, 'Mortgage Protection Insurance', [
+      "Your home is your sanctuary. Make sure it stays that way.",
+      "Don't let a tragedy turn into an eviction notice.",
+      "Mortgage protection: The shield that keeps the roof over their heads.",
+      "The Boss protects the home first, the legacy second.",
+      "Your family shouldn't have to move because you aren't there.",
+      "The industry calls it 'optional'. The Boss calls it 'essential'.",
+      "Mortgage protection insurance: The ultimate gift of stability.",
+      "Ensure your family's home is paid for, no matter what.",
+      "The biggest debt in your life deserves the biggest protection.",
+      "Don't leave your mortgage to your grieving family.",
+      "Mortgage protection is the foundation of a safe neighborhood.",
+      "The Boss knows that a paid-off home is the ultimate security.",
+      "Your sanctuary deserves a bulletproof shield.",
+      "Mortgage protection insurance: Because 'I'm sorry' doesn't pay the bank.",
+      "Keep the memories in the house, and the bank out of it.",
+      "The strategic move for every homeowner: Mortgage protection.",
+      "Your family's stability starts with a secure home.",
+      "The industry hides the risk of an unprotected mortgage.",
+      "Mortgage protection: The Boss's promise to the family home.",
+      "A paid-off home is the first step to generational wealth."
+    ]),
+    ...generateQuoteBatch(ib, 'Disability Insurance', [
+      "Your income is your most valuable asset. Protect it like one.",
+      "The Boss knows that a paycheck is the fuel for the empire.",
+      "Disability insurance: The shield for your ability to earn.",
+      "Don't let an accident bankrupt your family's future.",
+      "The industry ignores disability. The Boss prepares for it.",
+      "Your lifestyle depends on your income. What happens if it stops?",
+      "Disability insurance is the ultimate whistleblower against bad luck.",
+      "Protect the engine that builds your wealth.",
+      "The Boss doesn't gamble with their ability to provide.",
+      "Disability insurance: The essential tool for the career professional.",
+      "Your paycheck is the foundation of your family's dreams.",
+      "Don't let a health crisis become a financial catastrophe.",
+      "Disability insurance: The Boss's safety net for the daily grind.",
+      "The strategic choice for the high-earning provider.",
+      "Your ability to work is your family's greatest resource.",
+      "The industry hides the statistics. The Boss knows the risks.",
+      "Disability insurance: Because life doesn't stop when you do.",
+      "Protect your earning power, protect your legacy.",
+      "The Boss uses disability insurance to ensure the empire keeps growing.",
+      "Income protection for the visionary who never stops."
+    ]),
+    ...generateQuoteBatch(lib, 'Life Insurance', [
+      "Every heartbeat is a billable hour for your family's future. Protect it.",
+      "The Life Insurance Boss ensures your sweat equity lives on forever.",
+      "It's not about the premium; it's about the promise of a preserved lifestyle.",
+      "The ultimate strategy: Turning a monthly payment into a multi-generational windfall.",
+      "The industry wants you to think life insurance is an expense. The Boss knows it's the ultimate family shield.",
+      "Your family's standard of living shouldn't be a gamble on the stock market.",
+      "A Life Q strategy is the silent partner in your family's success story.",
+      "We don't just cover deaths; we fund life's next chapters.",
+      "The Boss knows that insurance is the only asset that's 100% tax-free and 100% certain.",
+      "Don't leave your family to guess. Leave them a blueprint for prosperity.",
+      "Life insurance is the foundation upon which every great family office is built.",
+      "Your kids' dreams shouldn't have an expiration date based on your health.",
+      "The whistleblower's truth: A cheap policy is the most expensive mistake you'll ever make.",
+      "Architect your family's freedom with the precision of a Life Insurance Boss.",
+      "We transform your earning power into a permanent family bank.",
+      "The Life Q standard means your family never has to compromise on their future.",
+      "Stop chasing 'investments' until your 'protections' are bulletproof.",
+      "Your legacy is your signature. Make sure it carries the weight of a Boss.",
+      "The ultimate gift to your children is a name that signifies security.",
+      "Life Insurance Boss: The final word in family wealth preservation."
     ])
 ];
+

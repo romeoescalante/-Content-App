@@ -1,8 +1,7 @@
 export enum AccountType {
   IB = 'The Insurance Boss',
   QC = 'Quick Coverage',
-  LIB = 'The Life Insurance Boss',
-  PB = 'The Protection Boss'
+  LIB = 'The Life Insurance Boss'
 }
 
 export enum WeekTheme {
@@ -17,11 +16,10 @@ export type SocialPlatform = 'ALL' | 'Instagram' | 'Facebook' | 'LinkedIn' | 'X'
 export const ACCOUNT_PLATFORMS: Record<AccountType, SocialPlatform[]> = {
   [AccountType.IB]: ['Instagram', 'Facebook', 'LinkedIn', 'X', 'YouTube'],
   [AccountType.QC]: ['Instagram', 'Facebook', 'LinkedIn', 'X'],
-  [AccountType.LIB]: ['Instagram', 'Facebook'],
-  [AccountType.PB]: ['Instagram', 'Facebook']
+  [AccountType.LIB]: ['Instagram', 'Facebook']
 };
 
-export type PostCategory = 'Reel' | 'Slide' | 'Meme' | 'Story' | 'Text' | 'Video' | 'Holiday' | 'YouTube Shorts' | 'Infographic' | 'Carousel';
+export type PostCategory = 'Reel' | 'Video' | 'Carousel';
 
 export interface PostTask {
   id: string;
@@ -32,7 +30,11 @@ export interface PostTask {
   account: AccountType;
   title: string;
   content: string;
-  category: PostCategory; 
+  category: PostCategory;
+  backgroundImagePrompt?: string;
+  copy?: string;
+  hashtags?: string;
+  description?: string;
 }
 
 export interface GeneratedPrompt {
@@ -60,10 +62,15 @@ export type QuoteCategory =
   | 'Monday'
   | 'Commercial Risk'
   | 'Lender FAQ'
-  | 'Residual Income'
   | 'Insurance Agents'
   | 'Protection'
   | 'Life Insurance Agents'
+  | 'Whole Life Insurance'
+  | 'Universal Life Insurance'
+  | 'Term Life Insurance'
+  | 'Mortgage Protection Insurance'
+  | 'Disability Insurance'
+  | 'Life Insurance'
   | 'Meme';
 
 export interface QuoteItem {

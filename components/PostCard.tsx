@@ -16,14 +16,9 @@ export const PostCard: React.FC<PostCardProps> = ({ task, selectedPlatform, onVi
 
   const getIcon = () => {
     switch (task.category) {
-      case 'Reel': return <Film className="w-4 h-4" />;
-      case 'Meme': return <Sparkles className="w-4 h-4" />;
-      case 'Slide': return <ImageIcon className="w-4 h-4" />;
+      case 'Reel': return <Film className="w-4 h-4 text-pink-400" />;
       case 'Carousel': return <Layers className="w-4 h-4 text-blue-400" />;
-      case 'Infographic': return <PieChart className="w-4 h-4" />;
-      case 'Story': return <Video className="w-4 h-4" />;
-      case 'Holiday': return <CalendarHeart className="w-4 h-4 text-red-400" />;
-      case 'YouTube Shorts': return <PlaySquare className="w-4 h-4 text-red-500" />;
+      case 'Video': return <Video className="w-4 h-4 text-purple-400" />;
       default: return <FileText className="w-4 h-4" />;
     }
   };
@@ -48,12 +43,8 @@ export const PostCard: React.FC<PostCardProps> = ({ task, selectedPlatform, onVi
         return "border-yellow-400 bg-slate-900 text-slate-100 shadow-[0_4px_20px_rgba(250,204,21,0.1)]";
       case AccountType.QC: 
         return "border-teal-500 bg-slate-900 text-slate-100 shadow-[0_4px_20px_rgba(20,184,166,0.1)]";
-      case AccountType.CB: 
-        return "border-slate-500 bg-slate-900 text-slate-100 shadow-[0_4px_20px_rgba(100,116,139,0.1)]";
-      case AccountType.PB: 
-        return "border-red-600 bg-slate-900 text-slate-100 shadow-[0_4px_20px_rgba(220,38,38,0.1)]";
-      case AccountType.GB: 
-        return "border-green-600 bg-stone-900 text-stone-100 shadow-[0_4px_20px_rgba(22,163,74,0.1)]"; 
+      case AccountType.LIB: 
+        return "border-slate-400 bg-slate-900 text-slate-100 shadow-[0_4px_20px_rgba(148,163,184,0.1)]";
       default: 
         return "border-slate-800 bg-slate-900 text-slate-100";
     }
@@ -64,22 +55,31 @@ export const PostCard: React.FC<PostCardProps> = ({ task, selectedPlatform, onVi
     switch (task.account) {
       case AccountType.IB: return "bg-yellow-400 text-black";
       case AccountType.QC: return "bg-teal-500 text-white";
-      case AccountType.CB: return "bg-slate-700 text-white";
-      case AccountType.PB: return "bg-red-600 text-white";
-      case AccountType.GB: return "bg-green-700 text-white";
+      case AccountType.LIB: return "bg-slate-700 text-white";
       default: return "bg-slate-700 text-white";
     }
   };
 
-  const displayTitle = selectedPlatform === 'ALL' 
-    ? `Post ${task.day}: ${task.title}` 
-    : `${selectedPlatform} Post: ${task.title}`;
+  const displayTitle = task.title;
 
   const handleGenerate = async () => {
     setIsLoading(true);
-    const prompt = await generatePostPrompt(task, selectedPlatform);
+    const aiPrompt = await generatePostPrompt(task, selectedPlatform);
     setIsLoading(false);
-    onViewPrompt(prompt, displayTitle);
+    
+    // Format static data into Markdown to be shown in the modal
+    const staticInfo = `
+${task.content ? `### 📝 Post Content\n${task.content}\n\n` : ''}
+${task.description ? `### 📋 Strategy Overview\n${task.description}\n\n` : ''}
+${task.backgroundImagePrompt ? `### 🎬 Background Prompt\n${task.backgroundImagePrompt}\n\n` : ''}
+${task.copy ? `### ✍️ Copy\n${task.copy}\n\n` : ''}
+${task.hashtags ? `### #️⃣ Hashtags\n${task.hashtags}\n\n` : ''}
+---
+### 🤖 AI Generated Strategy
+${aiPrompt}
+    `.trim();
+
+    onViewPrompt(staticInfo, displayTitle);
   };
 
   const availablePlatforms = ACCOUNT_PLATFORMS[task.account] || [];
@@ -96,13 +96,11 @@ export const PostCard: React.FC<PostCardProps> = ({ task, selectedPlatform, onVi
         </div>
       </div>
       
-      <div className="mb-2">
+      <div className="mb-4">
          <h3 className={`text-lg font-bold leading-tight ${isCompleted ? 'text-slate-400' : 'text-white'}`}>{displayTitle}</h3>
          <span className="text-xs font-medium opacity-50 uppercase block mt-1">{task.date}</span>
       </div>
       
-      <p className={`text-sm mb-4 flex-grow leading-relaxed ${isCompleted ? 'text-slate-500' : 'text-slate-400'}`}>{task.content}</p>
-
       <div className={`flex gap-2 mb-4 ${isCompleted ? 'opacity-20' : 'opacity-40'}`}>
         {availablePlatforms.map(p => (
             <span key={p} title={p} className={`${selectedPlatform === p ? 'text-white opacity-100 scale-125' : ''} transition-transform`}>
@@ -120,10 +118,6 @@ export const PostCard: React.FC<PostCardProps> = ({ task, selectedPlatform, onVi
               ? 'bg-slate-800 text-slate-500 cursor-not-allowed'
               : task.account === AccountType.IB 
               ? 'bg-yellow-400 text-black hover:bg-yellow-300' 
-              : task.account === AccountType.PB
-              ? 'bg-red-600 text-white hover:bg-red-500'
-              : task.account === AccountType.GB
-              ? 'bg-green-700 text-white hover:bg-green-600'
               : 'bg-white text-slate-950 hover:bg-slate-200'
           }`}
         >
